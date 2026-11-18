@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Vendored skill assets, not application code:
+    ".skills/**",
+    ".impeccable/**",
   ]),
 ]);
 
