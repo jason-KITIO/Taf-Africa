@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Check } from "@/components/icons";
 import { plans, pricingNote } from "@/lib/content";
 import { cn } from "@/lib/utils";
@@ -56,8 +57,8 @@ export function Pricing() {
               ))}
             </ul>
 
-            <a
-              href="#"
+            <Link
+              href="/inscription?role=freelance"
               className={cn(
                 "mt-6 inline-flex items-center justify-center rounded-full px-4 py-3 text-sm font-bold transition",
                 plan.featured
@@ -66,7 +67,7 @@ export function Pricing() {
               )}
             >
               {plan.cta}
-            </a>
+            </Link>
           </article>
         ))}
       </div>

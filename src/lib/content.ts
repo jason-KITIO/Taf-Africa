@@ -32,9 +32,9 @@ export const valueProps: {
 }[] = [
   {
     icon: Users,
-    title: "Candidatures plafonnées",
+    title: "Offres cadrées",
     description:
-      "Chaque mission reçoit 5 à 10 propositions au maximum. Côté client, moins de bruit à trier. Côté freelance, une vraie chance d'être lu.",
+      "Une offre simple coûte 1 crédit. Une offre premium coûte 15 crédits et reste limitée à 4 par mission. Moins de bruit à trier, plus de chances d'être lu.",
   },
   {
     icon: Shield,
@@ -303,9 +303,9 @@ export const clientSteps: Step[] = [
       "Publie ton projet gratuitement : budget, délai, compétences recherchées. Ton annonce part directement aux talents pertinents.",
   },
   {
-    title: "Reçois jusqu'à 10 propositions",
+    title: "Reçois des offres lisibles",
     description:
-      "Compare les profils, les réalisations et les devis. Les candidatures sont plafonnées pour garder le meilleur du choix.",
+      "Compare les profils, les réalisations et les devis. Une offre simple coûte 1 crédit, une offre premium 15 crédits et 4 au maximum par mission.",
   },
   {
     title: "Choisis et paie en sécurité",
@@ -382,7 +382,7 @@ export const plans: Plan[] = [
     features: [
       "Tout le plan Pro Max",
       "Plusieurs profils sous un même compte",
-      "Candidatures illimitées",
+      "Jusqu'à 4 offres premium par mission",
       "Profil suggéré en tête de liste",
       "Support dédié",
     ],
@@ -412,9 +412,9 @@ export const faqs: Faq[] = [
       "Un crédit correspond à une candidature envoyée. Tu peux acheter des crédits à l'unité ou souscrire un abonnement mensuel qui en inclut un certain nombre. Les crédits non utilisés restent disponibles.",
   },
   {
-    question: "Pourquoi limiter le nombre de candidatures par projet ?",
+    question: "Comment fonctionnent les offres simples et premium ?",
     answer:
-      "Pour protéger la qualité. En plafonnant à 5–10 propositions, les clients reçoivent moins de spam et les freelances ont une réelle chance d'être sélectionnés.",
+      "Une offre simple coûte 1 crédit et peut être envoyée sans limite. Une offre premium coûte 15 crédits et est limitée à 4 par mission. Dans les deux cas, l'envoi ouvre directement la messagerie et le client peut marquer l'offre comme étudiée.",
   },
   {
     question: "Quels moyens de paiement acceptez-vous ?",
@@ -442,36 +442,36 @@ export const footerNav = [
   {
     title: "Plateforme",
     links: [
-      { label: "Comment ça marche", href: "#comment-ca-marche" },
+      { label: "Comment ça marche", href: "/#comment-ca-marche" },
       { label: "Projets", href: "/projets" },
-      { label: "FAQ", href: "#faq" },
+      { label: "FAQ", href: "/#faq" },
     ],
   },
   {
     title: "Freelances",
     links: [
-      { label: "Devenir freelance", href: "#" },
+      { label: "Devenir freelance", href: "/inscription?role=freelance" },
       { label: "Trouver des missions", href: "/projets" },
-      { label: "Crédits & abonnements", href: "#" },
-      { label: "Aide et support", href: "#faq" },
+      { label: "Crédits & abonnements", href: "/abonnements" },
+      { label: "Aide et support", href: "/#faq" },
     ],
   },
   {
     title: "Clients",
     links: [
-      { label: "Publier un projet", href: "#" },
-      { label: "Trouver un talent", href: "/projets" },
-      { label: "Paiement sécurisé", href: "#" },
-      { label: "Questions fréquentes", href: "#faq" },
+      { label: "Publier un besoin", href: "/projets/nouveau" },
+      { label: "Trouver un talent", href: "/annuaire" },
+      { label: "Paiement sécurisé", href: "/cgu" },
+      { label: "Questions fréquentes", href: "/#faq" },
     ],
   },
   {
     title: "Entreprise",
     links: [
-      { label: "À propos", href: "#" },
-      { label: "Blog", href: "#" },
-      { label: "Contact", href: "#" },
-      { label: "Mentions légales", href: "#" },
+      { label: "Notre modèle", href: "/#comment-ca-marche" },
+      { label: "CGU", href: "/cgu" },
+      { label: "Confidentialité", href: "/confidentialite" },
+      { label: "Mentions légales", href: "/mentions-legales" },
     ],
   },
 ];

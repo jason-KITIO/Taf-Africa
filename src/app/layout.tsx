@@ -12,6 +12,13 @@ const hanken = Hanken_Grotesk({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://taf-africa.com"),
+  manifest: "/manifest.webmanifest",
+  applicationName: "Taf Africa",
+  appleWebApp: {
+    capable: true,
+    title: "Taf Africa",
+    statusBarStyle: "default",
+  },
   title: {
     default: "Taf Africa — le talent et la mission, au même endroit",
     template: "%s · Taf Africa",
@@ -44,15 +51,15 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
   themeColor: "#fafaf7",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="fr"
-      className={`${hanken.variable} h-full antialiased`}
-    >
+    <html lang="fr" className={`${hanken.variable} h-full antialiased`}>
       <body className="min-h-full bg-paper font-sans text-ink">
         {children}
         <HelpWidget />

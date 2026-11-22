@@ -1,0 +1,709 @@
+{
+  "users": [
+    {
+      "id": "user_client_demo",
+      "name": "Amina Diallo",
+      "email": "client@taf-africa.com",
+      "passwordHash": "85a39dcca4de15102b67e1fadbf2f59d:25b12c38e4a6670088d2befe0029f7cbcaea8722e8d6912532227984437f7eb58df6523ee62fadda20a3a6841d3937d6096a778e83128631be10745e9cbc5e78",
+      "role": "client",
+      "banned": false,
+      "createdAt": "2026-10-09T20:24:29.566Z",
+      "identityVerified": false,
+      "referralCode": "AMINA-DI-A3F6"
+    },
+    {
+      "id": "user_freelance_demo",
+      "name": "Koffi Mensah",
+      "email": "freelance@taf-africa.com",
+      "passwordHash": "861f000bd8abb3760286022bf92a39cc:b996566c2cbd162b6d39205312de11207506972aab7cb36025296880ee259a4127dbab420ebb6b98f18c18ff4ae71b35b77c17157cf83cdfe659de3d8ec2ff41",
+      "role": "freelance",
+      "banned": false,
+      "createdAt": "2026-09-19T20:24:29.638Z",
+      "identityVerified": false,
+      "referralCode": "KOFFI-ME-0280"
+    },
+    {
+      "id": "user_designer_demo",
+      "name": "Fatou Traoré",
+      "email": "designer@taf-africa.com",
+      "passwordHash": "2c13f3e7cc180e5bc31369cf306ff549:f8ba3475dc5cf1f76d249069b52034e26b0f641dbcc7fd8922912f551d27ea6f156ea564307665ccd89ff01c526c3c9702b0fa83a9a8ed29d7bd72214e85d68d",
+      "role": "freelance",
+      "banned": false,
+      "createdAt": "2026-10-14T20:24:29.740Z",
+      "identityVerified": false,
+      "referralCode": "FATOU-TR-8ED1"
+    },
+    {
+      "id": "user_admin_demo",
+      "name": "Admin Taf",
+      "email": "admin@taf-africa.com",
+      "passwordHash": "065a524e91295eaf9e62109b3e00df6a:1a7f751e85e06cf5767ceecab1a86fce4748b8fb517eece9909a332420a14b287c858ac5246b48181eedb68d2f64f00330d672fe190e2c6101ccb61d875282bc",
+      "role": "admin",
+      "banned": false,
+      "createdAt": "2026-08-20T20:24:29.833Z",
+      "identityVerified": false,
+      "referralCode": "ADMIN-TA-1249"
+    }
+  ],
+  "freelanceProfiles": [
+    {
+      "userId": "user_freelance_demo",
+      "slug": "koffi-mensah",
+      "title": "Développeur fullstack Next.js",
+      "bio": "Je construis des sites rapides et des applications web fiables pour les entreprises africaines qui veulent passer à l'échelle.",
+      "city": "Abidjan",
+      "country": "Côte d'Ivoire",
+      "phone": "+225 07 00 00 00 01",
+      "languages": [
+        "Français",
+        "Anglais"
+      ],
+      "dailyRate": 180000,
+      "rateCurrency": "XAF",
+      "emailAlerts": true,
+      "isPublic": true,
+      "skills": [
+        "Next.js",
+        "React",
+        "TypeScript",
+        "Node.js"
+      ],
+      "verified": false
+    },
+    {
+      "userId": "user_designer_demo",
+      "slug": "fatou-traore",
+      "title": "Designer produit UI/UX",
+      "bio": "J'aide les startups à clarifier leur produit, dessiner leurs parcours et livrer une interface que les équipes aiment utiliser.",
+      "city": "Dakar",
+      "country": "Sénégal",
+      "languages": [
+        "Français",
+        "Anglais"
+      ],
+      "dailyRate": 150000,
+      "rateCurrency": "XAF",
+      "emailAlerts": true,
+      "isPublic": true,
+      "skills": [
+        "UI Design",
+        "UX Research",
+        "Figma"
+      ],
+      "verified": false
+    }
+  ],
+  "clientProfiles": [
+    {
+      "userId": "user_client_demo",
+      "companyName": "Teranga Digital",
+      "city": "Dakar",
+      "country": "Sénégal",
+      "phone": "+221 77 000 00 00"
+    }
+  ],
+  "portfolioItems": [
+    {
+      "id": "portfolio_1",
+      "freelanceId": "user_freelance_demo",
+      "title": "Boutique Kossa",
+      "description": "Refonte e-commerce avec paiement Orange Money.",
+      "link": "#"
+    },
+    {
+      "id": "portfolio_2",
+      "freelanceId": "user_freelance_demo",
+      "title": "Dashboard logistique",
+      "description": "Tableau de bord temps réel pour une agence de transport.",
+      "link": "#"
+    },
+    {
+      "id": "portfolio_3",
+      "freelanceId": "user_designer_demo",
+      "title": "Identité Niaam",
+      "description": "Direction artistique et design system pour une fintech.",
+      "link": "#"
+    }
+  ],
+  "categories": [
+    {
+      "id": "cat_dev",
+      "name": "Développement",
+      "slug": "developpement",
+      "sortOrder": 1
+    },
+    {
+      "id": "cat_fullstack",
+      "name": "Fullstack",
+      "slug": "fullstack",
+      "parentSlug": "developpement",
+      "sortOrder": 2
+    },
+    {
+      "id": "cat_wordpress",
+      "name": "WordPress / no-code",
+      "slug": "wordpress-no-code",
+      "parentSlug": "developpement",
+      "sortOrder": 3
+    },
+    {
+      "id": "cat_design",
+      "name": "Design",
+      "slug": "design",
+      "sortOrder": 4
+    },
+    {
+      "id": "cat_uiux",
+      "name": "UI/UX",
+      "slug": "ui-ux",
+      "parentSlug": "design",
+      "sortOrder": 5
+    },
+    {
+      "id": "cat_logo",
+      "name": "Logo et identité",
+      "slug": "logo-identite",
+      "parentSlug": "design",
+      "sortOrder": 6
+    },
+    {
+      "id": "cat_video",
+      "name": "Vidéo et motion",
+      "slug": "video-motion",
+      "sortOrder": 7
+    },
+    {
+      "id": "cat_motion",
+      "name": "Motion design",
+      "slug": "motion-design",
+      "parentSlug": "video-motion",
+      "sortOrder": 8
+    },
+    {
+      "id": "cat_marketing",
+      "name": "Marketing",
+      "slug": "marketing",
+      "sortOrder": 9
+    },
+    {
+      "id": "cat_seo",
+      "name": "SEO",
+      "slug": "seo",
+      "parentSlug": "marketing",
+      "sortOrder": 10
+    }
+  ],
+  "skills": [
+    "Next.js",
+    "React",
+    "TypeScript",
+    "Node.js",
+    "Python",
+    "Laravel",
+    "WordPress",
+    "UI Design",
+    "UX Research",
+    "Figma",
+    "Motion Design",
+    "Vidéo",
+    "SEO",
+    "Marketing digital",
+    "Data",
+    "IA"
+  ],
+  "projects": [
+    {
+      "id": "project_ecommerce",
+      "clientId": "user_client_demo",
+      "slug": "refonte-e-commerce-mode-abidjan",
+      "title": "Refonte e-commerce pour une marque de mode à Abidjan",
+      "description": "Nous voulons remplacer notre boutique actuelle par une expérience mobile-first, rapide et facile à administrer. Le projet inclut le catalogue, le panier, le paiement Mobile Money et un espace client.",
+      "categorySlug": "fullstack",
+      "budgetMin": 900000,
+      "budgetMax": 1500000,
+      "currency": "XAF",
+      "deadlineDays": 21,
+      "skills": [
+        "Next.js",
+        "TypeScript",
+        "Node.js"
+      ],
+      "attachmentNames": [
+        "brief-produit.pdf"
+      ],
+      "status": "open",
+      "maxQuotes": 10,
+      "quotesCount": 2,
+      "viewsCount": 140,
+      "publishedAt": "2026-11-16T20:24:29.833Z",
+      "createdAt": "2026-11-16T20:24:29.833Z"
+    },
+    {
+      "id": "project_fintech",
+      "clientId": "user_client_demo",
+      "slug": "identite-visuelle-fintech",
+      "title": "Identité visuelle et application mobile pour une fintech",
+      "description": "Création d'une identité complète puis déclinaison dans une application mobile de gestion de paiements. Nous cherchons un designer capable de travailler avec une équipe produit.",
+      "categorySlug": "logo-identite",
+      "budgetMin": 500000,
+      "budgetMax": 900000,
+      "currency": "XAF",
+      "deadlineDays": 30,
+      "skills": [
+        "UI Design",
+        "Figma",
+        "UX Research"
+      ],
+      "attachmentNames": [],
+      "status": "open",
+      "maxQuotes": 10,
+      "quotesCount": 1,
+      "viewsCount": 84,
+      "publishedAt": "2026-11-14T20:24:29.833Z",
+      "createdAt": "2026-11-14T20:24:29.833Z"
+    },
+    {
+      "id": "project_cabinet",
+      "clientId": "user_client_demo",
+      "slug": "site-vitrine-bilingue-cabinet",
+      "title": "Site vitrine bilingue pour un cabinet de conseil",
+      "description": "Un site clair en français et en anglais, avec une page équipe, des articles et un formulaire de contact. Hébergement et formation à la mise à jour inclus.",
+      "categorySlug": "wordpress-no-code",
+      "budgetMin": 300000,
+      "budgetMax": 600000,
+      "currency": "XAF",
+      "deadlineDays": 14,
+      "skills": [
+        "WordPress",
+        "SEO"
+      ],
+      "attachmentNames": [],
+      "status": "open",
+      "maxQuotes": 10,
+      "quotesCount": 1,
+      "viewsCount": 63,
+      "publishedAt": "2026-11-17T20:24:29.833Z",
+      "createdAt": "2026-11-17T20:24:29.833Z"
+    },
+    {
+      "id": "project_seo",
+      "clientId": "user_client_demo",
+      "slug": "strategie-seo-social-ads",
+      "title": "Stratégie SEO et campagnes social ads",
+      "description": "Audit SEO, plan de contenu trimestriel et mise en place de campagnes Meta et TikTok Ads pour une marque de cosmétiques.",
+      "categorySlug": "seo",
+      "budgetMin": 250000,
+      "budgetMax": 500000,
+      "currency": "XAF",
+      "deadlineDays": 45,
+      "skills": [
+        "SEO",
+        "Marketing digital"
+      ],
+      "attachmentNames": [],
+      "status": "open",
+      "maxQuotes": 10,
+      "quotesCount": 0,
+      "viewsCount": 41,
+      "publishedAt": "2026-11-12T20:24:29.833Z",
+      "createdAt": "2026-11-12T20:24:29.833Z"
+    }
+  ],
+  "quotes": [
+    {
+      "id": "quote_dev_1",
+      "projectId": "project_ecommerce",
+      "freelanceId": "user_freelance_demo",
+      "price": 1200000,
+      "currency": "XAF",
+      "deliveryDays": 25,
+      "message": "Je peux livrer la boutique complète en 25 jours avec paiement Mobile Money et formation à l'administration.",
+      "type": "premium",
+      "status": "sent",
+      "creditsSpent": 15,
+      "createdAt": "2026-11-17T20:24:29.833Z"
+    },
+    {
+      "id": "quote_design_1",
+      "projectId": "project_fintech",
+      "freelanceId": "user_designer_demo",
+      "price": 750000,
+      "currency": "XAF",
+      "deliveryDays": 30,
+      "message": "Je propose une identité complète et un design system mobile, avec deux itérations incluses.",
+      "type": "simple",
+      "status": "studied",
+      "creditsSpent": 1,
+      "studiedAt": "2026-11-17T20:24:29.833Z",
+      "createdAt": "2026-11-15T20:24:29.833Z"
+    },
+    {
+      "id": "quote_cabinet_1",
+      "projectId": "project_cabinet",
+      "freelanceId": "user_freelance_demo",
+      "price": 450000,
+      "currency": "XAF",
+      "deliveryDays": 12,
+      "message": "Site bilingue prêt à l'emploi, avec formation courte pour votre équipe.",
+      "type": "simple",
+      "status": "sent",
+      "creditsSpent": 1,
+      "createdAt": "2026-11-17T20:24:29.833Z"
+    }
+  ],
+  "plans": [
+    {
+      "code": "free",
+      "name": "Gratuit",
+      "priceCents": 0,
+      "priceXaf": 0,
+      "monthlyCredits": 0,
+      "canSeeClient": false,
+      "isFeatured": false,
+      "description": "Pour découvrir la plateforme et répondre à vos premiers projets.",
+      "features": [
+        "Projets publics",
+        "Profil freelance",
+        "Alertes par compétence"
+      ]
+    },
+    {
+      "code": "pro",
+      "name": "Pro",
+      "priceCents": 3190,
+      "priceXaf": 21000,
+      "monthlyCredits": 80,
+      "canSeeClient": true,
+      "isFeatured": false,
+      "description": "Pour les freelances qui répondent régulièrement à des appels d'offres.",
+      "features": [
+        "80 crédits / 30 jours",
+        "Coordonnées client visibles",
+        "Offres premium",
+        "Factures"
+      ]
+    },
+    {
+      "code": "pro_max",
+      "name": "Pro Max",
+      "priceCents": 5990,
+      "priceXaf": 39300,
+      "monthlyCredits": 200,
+      "canSeeClient": true,
+      "isFeatured": true,
+      "description": "Pour aller plus vite avec un volume de réponses confortable.",
+      "features": [
+        "200 crédits / 30 jours",
+        "Coordonnées client visibles",
+        "Offres premium",
+        "Priorité de visibilité"
+      ]
+    },
+    {
+      "code": "agence",
+      "name": "Agence",
+      "priceCents": 10990,
+      "priceXaf": 72100,
+      "monthlyCredits": 400,
+      "canSeeClient": true,
+      "isFeatured": false,
+      "description": "Pour les équipes qui gèrent plusieurs profils et plusieurs projets.",
+      "features": [
+        "400 crédits / 30 jours",
+        "Profils d'équipe",
+        "Coordonnées client visibles",
+        "Factures illimitées"
+      ]
+    }
+  ],
+  "subscriptions": [
+    {
+      "id": "sub_client",
+      "userId": "user_client_demo",
+      "planCode": "pro",
+      "status": "active",
+      "currentPeriodStart": "2026-11-06T20:24:29.833Z",
+      "currentPeriodEnd": "2026-12-06T20:24:29.833Z",
+      "cancelAtPeriodEnd": false
+    },
+    {
+      "id": "sub_freelance",
+      "userId": "user_freelance_demo",
+      "planCode": "pro_max",
+      "status": "canceled",
+      "currentPeriodStart": "2026-11-08T20:24:29.833Z",
+      "currentPeriodEnd": "2026-12-08T20:24:29.833Z",
+      "cancelAtPeriodEnd": true
+    },
+    {
+      "id": "sub_designer",
+      "userId": "user_designer_demo",
+      "planCode": "pro",
+      "status": "active",
+      "currentPeriodStart": "2026-11-10T20:24:29.833Z",
+      "currentPeriodEnd": "2026-12-10T20:24:29.833Z",
+      "cancelAtPeriodEnd": false
+    },
+    {
+      "id": "sub_b67e24c4-9",
+      "userId": "user_freelance_demo",
+      "planCode": "pro",
+      "status": "active",
+      "currentPeriodStart": "2026-11-22T14:11:53.504Z",
+      "currentPeriodEnd": "2026-12-22T14:11:53.504Z",
+      "cancelAtPeriodEnd": false
+    }
+  ],
+  "creditLedger": [
+    {
+      "id": "credit_1",
+      "userId": "user_freelance_demo",
+      "delta": 200,
+      "reason": "plan_renewal",
+      "note": "Renouvellement Pro Max",
+      "createdAt": "2026-11-08T20:24:29.833Z"
+    },
+    {
+      "id": "credit_2",
+      "userId": "user_freelance_demo",
+      "delta": -15,
+      "reason": "quote_sent",
+      "note": "Offre premium · e-commerce mode",
+      "createdAt": "2026-11-17T20:24:29.833Z"
+    },
+    {
+      "id": "credit_3",
+      "userId": "user_freelance_demo",
+      "delta": -1,
+      "reason": "quote_sent",
+      "note": "Offre simple · site vitrine",
+      "createdAt": "2026-11-17T20:24:29.833Z"
+    },
+    {
+      "id": "credit_4",
+      "userId": "user_designer_demo",
+      "delta": 80,
+      "reason": "plan_renewal",
+      "note": "Renouvellement Pro",
+      "createdAt": "2026-11-10T20:24:29.833Z"
+    },
+    {
+      "id": "credit_5",
+      "userId": "user_designer_demo",
+      "delta": -1,
+      "reason": "quote_sent",
+      "note": "Offre simple · fintech",
+      "createdAt": "2026-11-15T20:24:29.833Z"
+    },
+    {
+      "id": "credit_d4e7d395-8",
+      "userId": "user_freelance_demo",
+      "delta": -184,
+      "reason": "expiry",
+      "note": "Crédits non utilisés expirés",
+      "createdAt": "2026-11-22T14:11:53.504Z"
+    },
+    {
+      "id": "credit_6b99d6f3-9",
+      "userId": "user_freelance_demo",
+      "delta": 80,
+      "reason": "plan_renewal",
+      "note": "Activation Pro",
+      "createdAt": "2026-11-22T14:11:53.504Z"
+    }
+  ],
+  "payments": [
+    {
+      "id": "payment_client",
+      "userId": "user_client_demo",
+      "planCode": "pro",
+      "provider": "orange_money",
+      "phone": "+221 77 000 00 00",
+      "amount": 21000,
+      "currency": "XAF",
+      "status": "succeeded",
+      "createdAt": "2026-11-06T20:24:29.833Z",
+      "paidAt": "2026-11-06T20:24:29.833Z",
+      "kind": "subscription"
+    },
+    {
+      "id": "payment_freelance",
+      "userId": "user_freelance_demo",
+      "planCode": "pro_max",
+      "provider": "mtn_momo",
+      "amount": 39300,
+      "currency": "XAF",
+      "status": "succeeded",
+      "createdAt": "2026-11-08T20:24:29.833Z",
+      "paidAt": "2026-11-08T20:24:29.833Z",
+      "kind": "subscription"
+    },
+    {
+      "id": "payment_4614e615-1",
+      "userId": "user_freelance_demo",
+      "planCode": "pro",
+      "kind": "subscription",
+      "provider": "orange_money",
+      "phone": "+237656125711",
+      "amount": 21000,
+      "currency": "XAF",
+      "status": "succeeded",
+      "createdAt": "2026-11-22T14:11:53.504Z",
+      "paidAt": "2026-11-22T14:11:53.504Z"
+    }
+  ],
+  "invoices": [
+    {
+      "id": "invoice_1",
+      "paymentId": "payment_client",
+      "number": "FA-2026-000001",
+      "amount": 21000,
+      "currency": "XAF",
+      "issuedAt": "2026-11-06T20:24:29.833Z"
+    },
+    {
+      "id": "invoice_2",
+      "paymentId": "payment_freelance",
+      "number": "FA-2026-000002",
+      "amount": 39300,
+      "currency": "XAF",
+      "issuedAt": "2026-11-08T20:24:29.833Z"
+    },
+    {
+      "id": "invoice_834fcf83-9",
+      "paymentId": "payment_4614e615-1",
+      "number": "FA-2026-000003",
+      "amount": 21000,
+      "currency": "XAF",
+      "issuedAt": "2026-11-22T14:11:53.504Z"
+    }
+  ],
+  "conversations": [
+    {
+      "id": "conv_1",
+      "projectId": "project_ecommerce",
+      "clientId": "user_client_demo",
+      "freelanceId": "user_freelance_demo",
+      "quoteId": "quote_dev_1",
+      "lastMessageAt": "2026-11-22T14:11:02.488Z",
+      "createdAt": "2026-11-17T20:24:29.833Z"
+    },
+    {
+      "id": "conv_2",
+      "projectId": "project_fintech",
+      "clientId": "user_client_demo",
+      "freelanceId": "user_designer_demo",
+      "quoteId": "quote_design_1",
+      "lastMessageAt": "2026-11-17T20:24:29.833Z",
+      "createdAt": "2026-11-15T20:24:29.833Z"
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_1",
+      "conversationId": "conv_1",
+      "senderId": "user_freelance_demo",
+      "body": "Bonjour Amina, je reste disponible pour détailler le calendrier de livraison.",
+      "containsContact": false,
+      "readAt": "2026-11-17T20:24:29.833Z",
+      "createdAt": "2026-11-17T20:24:29.833Z"
+    },
+    {
+      "id": "msg_2",
+      "conversationId": "conv_2",
+      "senderId": "user_client_demo",
+      "body": "Merci Fatou, nous avons bien reçu votre proposition et allons l'étudier.",
+      "containsContact": false,
+      "createdAt": "2026-11-17T20:24:29.833Z"
+    },
+    {
+      "id": "msg_d00ce19c-a",
+      "conversationId": "conv_1",
+      "senderId": "user_client_demo",
+      "body": "bonjour comment ca va ?",
+      "containsContact": false,
+      "createdAt": "2026-11-22T14:07:41.253Z",
+      "readAt": "2026-11-22T14:10:46.846Z"
+    },
+    {
+      "id": "msg_4a1ec54a-8",
+      "conversationId": "conv_1",
+      "senderId": "user_freelance_demo",
+      "body": "Contacter moi ici merci bien",
+      "containsContact": false,
+      "createdAt": "2026-11-22T14:11:02.488Z"
+    }
+  ],
+  "notifications": [
+    {
+      "id": "notif_d24887dd-d",
+      "userId": "user_freelance_demo",
+      "type": "subscription",
+      "title": "Abonnement activé",
+      "body": "Votre formule Pro est active avec 80 crédits.",
+      "url": "/factures",
+      "createdAt": "2026-11-22T14:11:53.504Z"
+    },
+    {
+      "id": "notif_68587ef7-4",
+      "userId": "user_client_demo",
+      "type": "new_message",
+      "title": "Nouveau message",
+      "body": "Contacter moi ici merci bien",
+      "url": "/messagerie/conv_1",
+      "createdAt": "2026-11-22T14:11:02.488Z"
+    },
+    {
+      "id": "notif_5cc344a3-f",
+      "userId": "user_freelance_demo",
+      "type": "new_message",
+      "title": "Nouveau message",
+      "body": "bonjour comment ca va ?",
+      "url": "/messagerie/conv_1",
+      "createdAt": "2026-11-22T14:07:41.254Z"
+    },
+    {
+      "id": "notif_1",
+      "userId": "user_client_demo",
+      "type": "new_quote",
+      "title": "Nouvelle offre reçue",
+      "body": "Koffi Mensah a envoyé une offre premium pour votre projet e-commerce.",
+      "url": "/offres",
+      "createdAt": "2026-11-17T20:24:29.833Z"
+    },
+    {
+      "id": "notif_2",
+      "userId": "user_designer_demo",
+      "type": "quote_studied",
+      "title": "Offre étudiée",
+      "body": "Votre offre pour le projet fintech a été lue par le client.",
+      "url": "/offres",
+      "createdAt": "2026-11-17T20:24:29.833Z"
+    },
+    {
+      "id": "notif_3",
+      "userId": "user_freelance_demo",
+      "type": "new_project",
+      "title": "Nouveau projet correspondant",
+      "body": "Une mission Fullstack correspond à vos compétences.",
+      "url": "/projets/strategie-seo-social-ads",
+      "createdAt": "2026-11-12T20:24:29.833Z"
+    }
+  ],
+  "reports": [
+    {
+      "id": "report_1",
+      "reporterId": "user_designer_demo",
+      "targetType": "project",
+      "targetId": "project_seo",
+      "reason": "Contenu dupliqué",
+      "details": "Le descriptif semble identique à une annonce publiée ailleurs.",
+      "status": "open",
+      "createdAt": "2026-11-16T20:24:29.833Z"
+    }
+  ],
+  "escrows": [],
+  "reviews": [],
+  "disputes": [],
+  "referrals": []
+}

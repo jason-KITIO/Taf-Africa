@@ -1,0 +1,18 @@
+{
+  "name": "Taf Africa",
+  "short_name": "Taf Africa",
+  "description": "La marketplace qui réunit les clients et les freelances d'Afrique francophone.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#fafaf7",
+  "theme_color": "#fafaf7",
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    }
+  ]
+}

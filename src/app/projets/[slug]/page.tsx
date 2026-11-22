@@ -1,228 +1,204 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { SiteHeader } from "@/components/site-header";
-import { SiteFooter } from "@/components/site-footer";
-import { MissionCard } from "@/components/mission-card";
-import { Monogram } from "@/components/monogram";
+import { SiteFrame } from "@/components/site-frame";
+import { QuoteForm, ReportForm } from "@/components/forms";
+import { Avatar, ButtonLink, Card, SectionHeading, StatusPill } from "@/components/ui";
+import { getCurrentUser } from "@/lib/auth";
 import {
-  ArrowRight,
-  Check,
-  Clock,
-  Eye,
-  Lock,
-  Users,
-} from "@/components/icons";
-import { getMission, missions } from "@/lib/content";
+  canViewClientProfile,
+  getClientProfile,
+  getCreditBalance,
+  getProjectById,
+  getRecommendedFreelancers,
+  getStore,
+  incrementProjectViews,
+} from "@/lib/demo-store";
+import { formatDate, formatMoney } from "@/lib/format";
 
-export function generateStaticParams() {
-  return missions.map((mission) => ({ slug: mission.slug }));
-}
+export const dynamic = "force-dynamic";
 
-export async function generateMetadata({
+export default async function ProjectDetailPage({
   params,
-}: PageProps<"/projets/[slug]">): Promise<Metadata> {
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const { slug } = await params;
-  const mission = getMission(slug);
-  if (!mission) return { title: "Projet introuvable" };
-  return { title: mission.title, description: mission.excerpt };
-}
+  const project = getProjectById(slug);
+  if (!project || project.status === "hidden") notFound();
+  const user = await getCurrentUser();
+  if (user?.id !== project.clientId) incrementProjectViews(project.id);
 
-export default async function MissionPage({
-  params,
-}: PageProps<"/projets/[slug]">) {
-  const { slug } = await params;
-  const mission = getMission(slug);
-  if (!mission) notFound();
-
-  const ratio = Math.min(
-    100,
-    Math.round((mission.proposals / mission.cap) * 100),
-  );
-  const similar = missions
-    .filter((m) => m.category === mission.category && m.slug !== mission.slug)
-    .slice(0, 3);
+  const client = getStore().users.find((item) => item.id === project.clientId);
+  const clientProfile = getClientProfile(project.clientId);
+  const revealClient = user && user.role !== "client" && canViewClientProfile(project.clientId);
+  const myQuote = user?.role === "freelance"
+    ? getStore().quotes.find((quote) => quote.projectId === project.id && quote.freelanceId === user.id)
+    : undefined;
+  const premiumCount = user?.role === "freelance"
+    ? getStore().quotes.filter((quote) => quote.projectId === project.id && quote.type === "premium").length
+    : 0;
+  const credits = user?.role === "freelance" ? getCreditBalance(user.id) : 0;
+  const conversation = user
+    ? getStore().conversations.find(
+        (item) => item.projectId === project.id && item.freelanceId === user.id,
+      )
+    : undefined;
 
   return (
-    <div className="flex min-h-full flex-col">
-      <SiteHeader />
-      <main className="flex-1">
-        <div className="mx-auto w-full max-w-6xl px-5 py-8 sm:px-8 sm:py-10">
-          <nav aria-label="Fil d'Ariane" className="text-sm text-muted">
-            <Link href="/projets" className="transition hover:text-amber-deep">
-              Projets
-            </Link>
-            <span className="px-2 text-line-strong">/</span>
-            <span className="font-medium text-ink-soft">{mission.category}</span>
-          </nav>
+    <SiteFrame>
+      <div className="mx-auto w-full max-w-6xl px-5 py-10 sm:px-8 sm:py-14">
+        <Link href="/projets" className="text-sm font-semibold text-muted transition hover:text-amber-deep">
+          ← Tous les projets
+        </Link>
 
-          <div className="mt-6 grid gap-10 lg:grid-cols-[1.6fr_1fr] lg:gap-14">
-            <div>
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-xs font-semibold">
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-emerald-700">
-                  <span className="size-1.5 rounded-full bg-emerald-500" />
-                  Ouvert
-                </span>
-                <span className="rounded-full border border-line px-2.5 py-1 text-muted">
-                  {mission.category}
-                </span>
-                <span className="inline-flex items-center gap-1.5 font-medium text-muted">
-                  <Clock className="size-3.5" />
-                  Publié {mission.posted}
-                </span>
+        <div className="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
+          <div className="min-w-0">
+            <div className="flex flex-wrap items-center gap-2">
+              <StatusPill tone={project.status === "open" ? "success" : "neutral"}>
+                {project.status === "open" ? "Ouvert aux offres" : project.status}
+              </StatusPill>
+              <span className="text-sm text-muted">Publié le {formatDate(project.publishedAt)}</span>
+              <span className="text-sm text-muted">· {project.viewsCount} vues</span>
+            </div>
+            <h1 className="mt-4 text-3xl font-extrabold leading-tight tracking-[-0.03em] text-ink sm:text-4xl">
+              {project.title}
+            </h1>
+            <p className="mt-5 text-base leading-relaxed text-ink-soft">{project.description}</p>
+
+            <div className="mt-8 grid gap-3 sm:grid-cols-3">
+              <Card className="p-4">
+                <p className="text-xs font-bold uppercase tracking-wider text-muted">Budget</p>
+                <p className="tnum mt-1 text-lg font-extrabold text-ink">
+                  {formatMoney(project.budgetMin, project.currency)} – {formatMoney(project.budgetMax, project.currency)}
+                </p>
+              </Card>
+              <Card className="p-4">
+                <p className="text-xs font-bold uppercase tracking-wider text-muted">Délai</p>
+                <p className="tnum mt-1 text-lg font-extrabold text-ink">{project.deadlineDays} jours</p>
+              </Card>
+              <Card className="p-4">
+                <p className="text-xs font-bold uppercase tracking-wider text-muted">Offres reçues</p>
+                <p className="tnum mt-1 text-lg font-extrabold text-ink">{project.quotesCount}</p>
+              </Card>
+            </div>
+
+            <div className="mt-8">
+              <SectionHeading title="Compétences recherchées" />
+              <div className="mt-3 flex flex-wrap gap-2">
+                {project.skills.map((skill) => (
+                  <span key={skill} className="rounded-full border border-line bg-surface px-3 py-1.5 text-sm font-semibold text-ink-soft">
+                    {skill}
+                  </span>
+                ))}
               </div>
+            </div>
 
-              <h1 className="mt-4 text-balance text-3xl font-extrabold leading-[1.1] tracking-[-0.03em] text-ink sm:text-4xl">
-                {mission.title}
-              </h1>
-
-              <p className="mt-4 text-lg leading-relaxed text-muted">
-                {mission.excerpt}
-              </p>
-
-              <section className="mt-10">
-                <h2 className="text-lg font-bold text-ink">Le projet</h2>
-                <ul className="mt-4 space-y-3">
-                  {mission.details.map((detail) => (
-                    <li key={detail} className="flex gap-3 text-[15px] leading-relaxed text-ink-soft">
-                      <Check className="mt-1 size-4 shrink-0 text-amber-deep" />
-                      {detail}
+            {project.attachmentNames.length > 0 ? (
+              <div className="mt-8">
+                <SectionHeading title="Fichiers joints" />
+                <ul className="mt-3 space-y-2">
+                  {project.attachmentNames.map((file) => (
+                    <li key={file} className="flex items-center justify-between rounded-xl border border-line bg-surface px-4 py-3 text-sm">
+                      <span className="font-semibold text-ink">{file}</span>
+                      <span className="text-muted">Démo</span>
                     </li>
                   ))}
                 </ul>
-              </section>
-
-              <section className="mt-10">
-                <h2 className="text-lg font-bold text-ink">
-                  Compétences recherchées
-                </h2>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {mission.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-full border border-line bg-surface px-3 py-1.5 text-sm font-medium text-ink-soft"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </section>
-
-              <section className="mt-10">
-                <h2 className="text-lg font-bold text-ink">Candidatures</h2>
-                <div className="mt-4 flex items-center gap-4 rounded-2xl border border-line bg-surface p-5">
-                  <div className="flex -space-x-2">
-                    {mission.applicants.map((initials) => (
-                      <Monogram
-                        key={initials}
-                        initials={initials}
-                        className="size-9"
-                      />
-                    ))}
-                  </div>
-                  <p className="text-sm leading-relaxed text-muted">
-                    <span className="tnum font-bold text-ink">
-                      {mission.proposals}
-                    </span>{" "}
-                    candidature{mission.proposals > 1 ? "s" : ""} déjà reçue
-                    {mission.proposals > 1 ? "s" : ""} sur un maximum de{" "}
-                    <span className="tnum font-bold text-ink">{mission.cap}</span>.
-                    Les profils restent privés jusqu&apos;à l&apos;ouverture de
-                    votre candidature.
-                  </p>
-                </div>
-              </section>
-            </div>
-
-            <aside className="lg:sticky lg:top-24 lg:self-start">
-              <div className="rounded-2xl border border-line bg-surface p-6 shadow-soft">
-                <p className="text-xs font-semibold uppercase tracking-wide text-muted">
-                  Budget indicatif
-                </p>
-                <p className="tnum mt-1 text-2xl font-extrabold tracking-tight text-ink">
-                  {mission.budget}
-                </p>
-
-                <dl className="mt-5 space-y-3 border-t border-line pt-5 text-sm">
-                  <div className="flex items-center justify-between">
-                    <dt className="text-muted">Délai</dt>
-                    <dd className="font-bold text-ink">{mission.delay}</dd>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <dt className="flex items-center gap-1.5 text-muted">
-                      <Users className="size-4" />
-                      Candidats
-                    </dt>
-                    <dd className="tnum font-bold text-ink">
-                      {mission.proposals} / {mission.cap}
-                    </dd>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <dt className="flex items-center gap-1.5 text-muted">
-                      <Eye className="size-4" />
-                      Vues
-                    </dt>
-                    <dd className="tnum font-bold text-ink">{mission.views}</dd>
-                  </div>
-                </dl>
-
-                <div className="mt-5">
-                  <div className="h-1.5 overflow-hidden rounded-full bg-line">
-                    <div
-                      className="h-full rounded-full bg-amber"
-                      style={{ width: `${ratio}%` }}
-                    />
-                  </div>
-                  <p className="mt-1.5 text-xs font-medium text-muted">
-                    Places limitées à {mission.cap} candidatures
-                  </p>
-                </div>
-
-                <div className="mt-6 rounded-xl border border-dashed border-line-strong bg-paper p-4 text-center">
-                  <span className="mx-auto grid size-10 place-items-center rounded-full bg-amber-soft text-amber-deep">
-                    <Lock className="size-5" />
-                  </span>
-                  <p className="mt-2 text-sm font-bold text-ink">
-                    Candidature verrouillée
-                  </p>
-                  <p className="mt-1 text-xs leading-relaxed text-muted">
-                    Consulter ce projet est gratuit. La candidature se débloque
-                    avec un crédit ou un abonnement.
-                  </p>
-                </div>
-
-                <a
-                  href="#"
-                  className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-amber-strong px-5 py-3 text-sm font-bold text-paper transition hover:bg-amber-strong-hover"
-                >
-                  Débloquer avec un crédit
-                  <ArrowRight className="size-4" />
-                </a>
-                <a
-                  href="#"
-                  className="mt-2 inline-flex w-full items-center justify-center rounded-full border border-line-strong px-5 py-3 text-sm font-bold text-ink transition hover:border-ink"
-                >
-                  Créer un compte gratuit
-                </a>
               </div>
-            </aside>
-          </div>
+            ) : null}
 
-          {similar.length > 0 && (
-            <section className="mt-16">
-              <h2 className="text-2xl font-extrabold tracking-[-0.02em] text-ink">
-                Projets similaires
-              </h2>
-              <div className="mt-6 space-y-4">
-                {similar.map((m) => (
-                  <MissionCard key={m.slug} mission={m} />
+            <div className="mt-10 border-t border-line pt-8">
+              <SectionHeading title="Freelances recommandés" description="Classement basé sur les compétences, la ville et la réputation." />
+              <div className="mt-4 grid gap-3 sm:grid-cols-3">
+                {getRecommendedFreelancers(project.id).map((entry) => (
+                  <Card key={entry.profile.userId} className="p-4">
+                    <div className="flex items-center gap-2">
+                      <Avatar name={entry.name} />
+                      {entry.profile.verified ? <StatusPill tone="success">Vérifié</StatusPill> : null}
+                    </div>
+                    <Link href={`/freelances/${entry.profile.slug}`} className="mt-3 block font-bold text-ink hover:text-amber-deep">
+                      {entry.name}
+                    </Link>
+                    <p className="mt-1 text-sm text-muted">{entry.profile.title || "Freelance"}</p>
+                    <p className="mt-2 text-xs text-muted">{entry.reason}{entry.reviewCount ? ` · ${entry.rating}/5` : ""}</p>
+                  </Card>
                 ))}
               </div>
-            </section>
-          )}
+            </div>
+
+            <div className="mt-10 border-t border-line pt-8">
+              <SectionHeading title="Client" description="Les coordonnées ne sont visibles qu'avec un abonnement actif." />
+              <Card className="mt-4">
+                <div className="flex items-center gap-3">
+                  <Avatar name={client?.name ?? "Client"} />
+                  <div>
+                    <p className="font-bold text-ink">{client?.name ?? "Client Taf Africa"}</p>
+                    <p className="text-sm text-muted">
+                      {revealClient ? `${clientProfile?.companyName || "Client"} · ${clientProfile?.city || "Afrique"}` : "Profil masqué"}
+                    </p>
+                  </div>
+                </div>
+                {revealClient ? (
+                  <p className="mt-4 text-sm text-ink-soft">
+                    {clientProfile?.country || "Afrique francophone"} · {clientProfile?.phone || "Contact via la messagerie"}
+                  </p>
+                ) : (
+                  <div className="mt-4 rounded-xl bg-sand/60 px-4 py-3 text-sm text-muted">
+                    Ce client n&apos;a pas encore d&apos;abonnement permettant de révéler ses coordonnées. Échangez via la messagerie sécurisée.
+                  </div>
+                )}
+              </Card>
+            </div>
+
+            <div className="mt-10 border-t border-line pt-8">
+              <SectionHeading title="Signaler ce projet" description="La modération examine chaque signalement." />
+              <div className="mt-4 max-w-xl">
+                <ReportForm projectId={project.id} />
+              </div>
+            </div>
+          </div>
+
+          <aside className="lg:sticky lg:top-24 lg:self-start">
+            <Card className="p-5">
+              {!user ? (
+                <>
+                  <h2 className="text-lg font-bold text-ink">Prêt à répondre ?</h2>
+                  <p className="mt-2 text-sm text-muted">Créez un compte freelance pour envoyer une offre avec vos crédits.</p>
+                  <div className="mt-4 grid gap-2">
+                    <ButtonLink href="/inscription?role=freelance" className="w-full">Créer un compte</ButtonLink>
+                    <ButtonLink href="/connexion" variant="secondary" className="w-full">Se connecter</ButtonLink>
+                  </div>
+                </>
+              ) : user.role === "client" ? (
+                <>
+                  <h2 className="text-lg font-bold text-ink">Votre annonce</h2>
+                  <p className="mt-2 text-sm text-muted">Vous recevez les offres dans votre espace client.</p>
+                  <ButtonLink href="/offres" className="mt-4 w-full">Voir les offres reçues</ButtonLink>
+                </>
+              ) : user.role === "admin" ? (
+                <>
+                  <h2 className="text-lg font-bold text-ink">Modération</h2>
+                  <ButtonLink href="/admin/projects" className="mt-4 w-full">Gérer ce projet</ButtonLink>
+                </>
+              ) : myQuote ? (
+                <>
+                  <h2 className="text-lg font-bold text-ink">Offre envoyée</h2>
+                  <p className="mt-2 text-sm text-muted">
+                    Statut : {myQuote.status === "studied" ? "offre étudiée par le client" : myQuote.status}.
+                  </p>
+                  {conversation ? (
+                    <ButtonLink href={`/messagerie/${conversation.id}`} className="mt-4 w-full">Ouvrir la conversation</ButtonLink>
+                  ) : null}
+                </>
+              ) : project.status !== "open" ? (
+                <p className="text-sm text-muted">Ce projet n&apos;accepte plus d&apos;offres.</p>
+              ) : (
+                <QuoteForm projectId={project.id} credits={credits} premiumCount={premiumCount} />
+              )}
+            </Card>
+          </aside>
         </div>
-      </main>
-      <SiteFooter />
-    </div>
+      </div>
+    </SiteFrame>
   );
 }

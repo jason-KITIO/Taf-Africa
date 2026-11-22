@@ -4,6 +4,12 @@ import { Logo } from "@/components/logo";
 
 const year = new Date().getFullYear();
 
+const legalLinks = [
+  { label: "Confidentialité", href: "/confidentialite" },
+  { label: "CGU", href: "/cgu" },
+  { label: "Mentions légales", href: "/mentions-legales" },
+];
+
 export function SiteFooter() {
   return (
     <footer className="border-t border-line">
@@ -20,11 +26,11 @@ export function SiteFooter() {
             </p>
           </div>
 
-          {footerNav.map((col) => (
-            <div key={col.title}>
-              <h3 className="text-sm font-bold text-ink">{col.title}</h3>
+          {footerNav.map((column) => (
+            <div key={column.title}>
+              <h3 className="text-sm font-bold text-ink">{column.title}</h3>
               <ul className="mt-4 space-y-3">
-                {col.links.map((link) => (
+                {column.links.map((link) => (
                   <li key={link.label}>
                     <Link
                       href={link.href}
@@ -44,15 +50,11 @@ export function SiteFooter() {
             © {year} Taf Africa. Tous droits réservés.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-muted">
-            <a href="#" className="transition hover:text-amber-deep">
-              Confidentialité
-            </a>
-            <a href="#" className="transition hover:text-amber-deep">
-              CGU
-            </a>
-            <a href="#" className="transition hover:text-amber-deep">
-              Cookies
-            </a>
+            {legalLinks.map((link) => (
+              <Link key={link.href} href={link.href} className="transition hover:text-amber-deep">
+                {link.label}
+              </Link>
+            ))}
           </div>
         </div>
       </div>

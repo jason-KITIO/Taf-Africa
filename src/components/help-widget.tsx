@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 function getReply(input: string): string {
   const q = input.toLowerCase();
   if (/(publier|projet|client|devis|besoin|recrut)/.test(q))
-    return "Publier un besoin est 100 % gratuit. Décrivez votre projet (budget, délai, compétences) et recevez jusqu'à 10 propositions qualifiées.";
+    return "Publier un besoin est 100 % gratuit. Décrivez votre projet (budget, délai, compétences) et recevez des offres simples à 1 crédit ou premium à 15 crédits, 4 au maximum par mission.";
   if (/(payer|paiement|mobile money|wave|orange|mtn|carte|stripe|moov)/.test(q))
     return "Nous acceptons le Mobile Money (Orange Money, MTN MoMo, Wave, Moov Money) et les cartes bancaires via Stripe. Les fonds sont sécurisés jusqu'à la livraison.";
   if (/(freelance|mission|talent|travail|candidat|postuler)/.test(q))

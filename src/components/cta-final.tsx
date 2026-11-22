@@ -5,9 +5,9 @@ const sides = [
   {
     icon: Users,
     title: "Vous avez un besoin",
-    copy: "Publiez votre projet gratuitement et recevez jusqu'à 10 propositions qualifiées.",
+    copy: "Publiez votre besoin gratuitement et recevez des offres clairement tarifées, sans échange de coordonnées hors plateforme.",
     cta: "Publier un besoin",
-    href: "#",
+    href: "/projets/nouveau",
     primary: true,
   },
   {

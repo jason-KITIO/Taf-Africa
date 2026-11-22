@@ -6,12 +6,9 @@ import { Logo } from "@/components/logo";
 import { Close, Menu } from "@/components/icons";
 import { cn } from "@/lib/utils";
 
-const navLinks = [
-  { label: "Comment ça marche", href: "/#comment-ca-marche" },
-  { label: "Projets", href: "/projets" },
-];
+type HeaderUser = { name: string; role: "client" | "freelance" | "admin" } | null;
 
-export function SiteHeader() {
+export function SiteHeader({ user = null }: { user?: HeaderUser }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -28,6 +25,26 @@ export function SiteHeader() {
       document.body.style.overflow = "";
     };
   }, [open]);
+
+  const navLinks = user
+    ? [
+        { label: "Tableau de bord", href: "/tableau-de-bord" },
+        { label: "Projets", href: "/projets" },
+        { label: "Freelances", href: "/freelances" },
+        { label: "Messagerie", href: "/messagerie" },
+      ]
+    : [
+        { label: "Comment ça marche", href: "/#comment-ca-marche" },
+        { label: "Projets", href: "/projets" },
+        { label: "Freelances", href: "/freelances" },
+      ];
+
+  const primaryHref = !user
+    ? "/inscription?role=client"
+    : user.role === "client"
+      ? "/projets/nouveau"
+      : "/projets";
+  const primaryLabel = !user ? "Publier un besoin" : user.role === "client" ? "Nouveau projet" : "Trouver des projets";
 
   return (
     <header
@@ -56,21 +73,30 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2 sm:gap-3">
-          <a
-            href="#"
-            className="hidden rounded-full px-4 py-2 text-sm font-semibold text-ink transition hover:bg-ink/5 sm:inline-flex"
-          >
-            Connexion
-          </a>
-          <a
-            href="#"
+          {user ? (
+            <Link
+              href="/profil"
+              className="hidden rounded-full px-4 py-2 text-sm font-semibold text-ink transition hover:bg-ink/5 sm:inline-flex"
+            >
+              {user.name.split(" ")[0]}
+            </Link>
+          ) : (
+            <Link
+              href="/connexion"
+              className="hidden rounded-full px-4 py-2 text-sm font-semibold text-ink transition hover:bg-ink/5 sm:inline-flex"
+            >
+              Connexion
+            </Link>
+          )}
+          <Link
+            href={primaryHref}
             className="hidden rounded-full bg-amber-strong px-4 py-2 text-sm font-bold text-paper shadow-soft transition hover:bg-amber-strong-hover sm:inline-flex"
           >
-            Publier un besoin
-          </a>
+            {primaryLabel}
+          </Link>
           <button
             type="button"
-            onClick={() => setOpen((v) => !v)}
+            onClick={() => setOpen((value) => !value)}
             aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
             aria-expanded={open}
             className="inline-flex size-10 items-center justify-center rounded-full border border-line bg-surface text-ink lg:hidden"
@@ -96,20 +122,20 @@ export function SiteHeader() {
               ))}
             </nav>
             <div className="mt-2 flex flex-col gap-2 border-t border-line pt-3">
-              <a
-                href="#"
+              <Link
+                href={user ? "/profil" : "/connexion"}
                 onClick={() => setOpen(false)}
                 className="rounded-full border border-line-strong px-4 py-3 text-center text-sm font-semibold text-ink"
               >
-                Connexion
-              </a>
-              <a
-                href="#"
+                {user ? "Mon profil" : "Connexion"}
+              </Link>
+              <Link
+                href={primaryHref}
                 onClick={() => setOpen(false)}
                 className="rounded-full bg-amber-strong px-4 py-3 text-center text-sm font-bold text-paper"
               >
-                Publier un besoin
-              </a>
+                {primaryLabel}
+              </Link>
             </div>
           </div>
         </div>

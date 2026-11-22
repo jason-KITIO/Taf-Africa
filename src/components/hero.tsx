@@ -43,7 +43,7 @@ export function Hero() {
         </ul>
 
         <div className="animate-rise mx-auto mt-14 max-w-4xl [animation-delay:160ms]">
-          <HeroIllustration className="rounded-3xl shadow-soft ring-1 ring-line" />
+          {/* <HeroIllustration className="rounded-3xl shadow-soft ring-1 ring-line" /> */}
         </div>
       </div>
     </section>

@@ -1,6 +1,7 @@
 "use client";
 
 import { Fragment, useMemo, useState } from "react";
+import Link from "next/link";
 import { MissionCard } from "@/components/mission-card";
 import { ArrowRight } from "@/components/icons";
 import { categories, missions } from "@/lib/content";
@@ -16,17 +17,17 @@ function PromoBlock() {
           Vous avez un projet similaire ?
         </h3>
         <p className="mt-1 text-sm leading-relaxed text-ink-soft">
-          Déposez votre projet gratuitement et recevez jusqu&apos;à 10
-          propositions qualifiées en quelques minutes.
+          Déposez votre besoin gratuitement et recevez des offres simples à 1
+          crédit ou premium à 15 crédits, 4 au maximum par mission.
         </p>
       </div>
-      <a
-        href="#"
+      <Link
+        href="/projets/nouveau"
         className="inline-flex shrink-0 items-center gap-2 rounded-full bg-amber-strong px-5 py-3 text-sm font-bold text-paper transition hover:bg-amber-strong-hover"
       >
-        Publier un projet
+        Publier un besoin
         <ArrowRight className="size-4" />
-      </a>
+      </Link>
     </div>
   );
 }

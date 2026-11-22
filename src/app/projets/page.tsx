@@ -1,91 +1,100 @@
-import type { Metadata } from "next";
-import { SiteHeader } from "@/components/site-header";
-import { SiteFooter } from "@/components/site-footer";
-import { ProjectList } from "@/components/project-list";
-import { ArrowRight, Briefcase, Users } from "@/components/icons";
+import Link from "next/link";
+import { SiteFrame } from "@/components/site-frame";
+import { Card, EmptyState, PageHeader, StatusPill } from "@/components/ui";
+import { formatDate, formatMoney } from "@/lib/format";
+import { getCategories, getPublicProjects } from "@/lib/demo-store";
+import { cn } from "@/lib/utils";
 
-export const metadata: Metadata = {
-  title: "Tous les projets",
-  description:
-    "Parcourez les projets freelance ouverts en Afrique francophone : développement, design, marketing, data et plus. Consulter est gratuit.",
-};
+export default async function ProjetsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ category?: string }>;
+}) {
+  const { category } = await searchParams;
+  const projects = getPublicProjects();
+  const categories = getCategories();
+  const filtered = category ? projects.filter((project) => project.categorySlug === category) : projects;
+  const activeCategory = categories.find((item) => item.slug === category);
 
-const entryPoints = [
-  {
-    icon: Users,
-    title: "Vous recrutez ?",
-    copy: "Publiez votre projet gratuitement et recevez jusqu'à 10 propositions qualifiées.",
-    cta: "Publier un projet",
-    primary: true,
-  },
-  {
-    icon: Briefcase,
-    title: "Vous êtes freelance ?",
-    copy: "Créez votre profil, consultez les missions et candidatez avec des crédits ou un abonnement.",
-    cta: "Créer mon profil",
-    primary: false,
-  },
-];
-
-export default function ProjectsPage() {
   return (
-    <div className="flex min-h-full flex-col">
-      <SiteHeader />
-      <main className="flex-1">
-        <section className="border-b border-line bg-sand">
-          <div className="mx-auto w-full max-w-6xl px-5 py-12 sm:px-8 sm:py-16">
-            <h1 className="text-balance text-4xl font-extrabold leading-[1.05] tracking-[-0.035em] text-ink sm:text-5xl">
-              Tous les projets
-              <span className="text-amber-deep">.</span>
-            </h1>
-            <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted">
-              Consulter une mission, son budget et son délai est gratuit.
-              Candidater se débloque avec un crédit ou un abonnement.
-            </p>
+    <SiteFrame>
+      <div className="mx-auto w-full max-w-6xl px-5 py-10 sm:px-8 sm:py-14">
+        <PageHeader
+          eyebrow="Appels d'offres"
+          title="Trouvez votre prochaine mission"
+          description="Des projets publiés par des clients d'Afrique francophone. Consultez librement, répondez avec une offre claire."
+          actions={<Link href="/projets/nouveau" className="rounded-full bg-amber-strong px-4 py-2 text-sm font-bold text-paper">Publier un besoin</Link>}
+        />
 
-            <div className="mt-8 grid gap-4 sm:grid-cols-2">
-              {entryPoints.map(
-                ({ icon: Icon, title, copy, cta, primary }) => (
-                  <div
-                    key={title}
-                    className="flex flex-col rounded-2xl border border-line bg-surface p-6 shadow-soft sm:flex-row sm:items-center sm:gap-5"
-                  >
-                    <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-amber-soft text-amber-deep">
-                      <Icon className="size-5" />
-                    </span>
-                    <div className="mt-4 flex-1 sm:mt-0">
-                      <h2 className="text-base font-bold text-ink">{title}</h2>
-                      <p className="mt-1 text-sm leading-relaxed text-muted">
-                        {copy}
-                      </p>
-                    </div>
-                    <a
-                      href="#"
-                      className={
-                        primary
-                          ? "mt-4 inline-flex shrink-0 items-center justify-center gap-1.5 rounded-full bg-amber-strong px-4 py-2.5 text-sm font-bold text-paper transition hover:bg-amber-strong-hover sm:mt-0"
-                          : "mt-4 inline-flex shrink-0 items-center justify-center gap-1.5 rounded-full border border-line-strong px-4 py-2.5 text-sm font-bold text-ink transition hover:border-ink sm:mt-0"
-                      }
-                    >
-                      {cta}
-                      <ArrowRight className="size-4" />
-                    </a>
-                  </div>
-                ),
+        <div className="mt-8 flex gap-2 overflow-x-auto pb-2">
+          <Link
+            href="/projets"
+            className={cn(
+              "whitespace-nowrap rounded-full border px-4 py-2 text-sm font-semibold transition",
+              !category ? "border-ink bg-ink text-paper" : "border-line bg-surface text-muted hover:text-ink",
+            )}
+          >
+            Tous les projets
+          </Link>
+          {categories.map((item) => (
+            <Link
+              key={item.slug}
+              href={`/projets?category=${item.slug}`}
+              className={cn(
+                "whitespace-nowrap rounded-full border px-4 py-2 text-sm font-semibold transition",
+                category === item.slug ? "border-ink bg-ink text-paper" : "border-line bg-surface text-muted hover:text-ink",
               )}
-            </div>
-          </div>
-        </section>
+            >
+              {item.name}
+            </Link>
+          ))}
+        </div>
 
-        <div className="mx-auto w-full max-w-6xl px-5 py-12 sm:px-8 sm:py-16">
-          <ProjectList />
-          <p className="mt-10 rounded-2xl border border-dashed border-line-strong bg-surface px-5 py-4 text-center text-sm text-muted">
-            Projets de démonstration — données authored, à remplacer par de
-            vraies missions une fois le produit en ligne.
+        <div className="mt-6 flex items-center justify-between gap-4">
+          <p className="text-sm text-muted">
+            <strong className="tnum text-ink">{filtered.length}</strong> projet{filtered.length > 1 ? "s" : ""}
+            {activeCategory ? ` · ${activeCategory.name}` : ""}
           </p>
         </div>
-      </main>
-      <SiteFooter />
-    </div>
+
+        {filtered.length === 0 ? (
+          <div className="mt-6">
+            <EmptyState
+              title="Aucun projet dans cette catégorie"
+              description="Revenez bientôt ou publiez votre propre besoin pour attirer les bons freelances."
+              action={<Link href="/projets" className="text-sm font-bold text-amber-deep hover:underline">Voir tous les projets</Link>}
+            />
+          </div>
+        ) : (
+          <div className="mt-4 grid gap-4 lg:grid-cols-2">
+            {filtered.map((project) => (
+              <Link key={project.id} href={`/projets/${project.slug}`} className="group block">
+                <Card className="h-full transition group-hover:border-line-strong group-hover:shadow-lift">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <StatusPill tone="success">Ouvert</StatusPill>
+                    {project.skills.slice(0, 2).map((skill) => (
+                      <span key={skill} className="rounded-full bg-sand px-2.5 py-1 text-xs font-semibold text-ink-soft">
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                  <h2 className="mt-4 text-lg font-bold leading-snug tracking-tight text-ink">{project.title}</h2>
+                  <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-muted">{project.description}</p>
+                  <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-line pt-4 text-sm">
+                    <span className="tnum font-bold text-ink">
+                      {formatMoney(project.budgetMin, project.currency)} – {formatMoney(project.budgetMax, project.currency)}
+                    </span>
+                    <span className="text-muted">
+                      {project.deadlineDays} jours · {project.quotesCount} offres
+                    </span>
+                  </div>
+                  <p className="mt-2 text-xs text-muted">Publié le {formatDate(project.publishedAt)}</p>
+                </Card>
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
+    </SiteFrame>
   );
 }
