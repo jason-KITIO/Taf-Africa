@@ -1,27 +1,45 @@
-import { SiteFrame } from "@/components/site-frame";
 import { AuthForm } from "@/components/forms";
-import { Card } from "@/components/ui";
+import {
+  AuthDivider,
+  AuthShell,
+  DemoAccounts,
+  GoogleAuthLink,
+} from "@/components/auth-shell";
+import { SiteFrame } from "@/components/site-frame";
+import { getCurrentUser } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
-export const metadata = { title: "Connexion" };
+export const metadata = {
+  title: "Connexion",
+  description: "Connectez-vous à votre espace Taf Africa.",
+};
 
-export default function ConnexionPage() {
+export default async function ConnexionPage() {
+  const user = await getCurrentUser();
+  if (user) redirect("/tableau-de-bord");
+
   return (
     <SiteFrame>
-      <div className="mx-auto flex w-full max-w-md flex-col px-5 py-14 sm:px-8 sm:py-20">
-        <div className="mb-6 text-center">
-          <h1 className="text-3xl font-extrabold tracking-[-0.03em] text-ink">Bon retour sur Taf Africa</h1>
-          <p className="mt-2 text-sm text-muted">Connectez-vous pour gérer vos projets, offres et conversations.</p>
-        </div>
-        <Card className="p-6 sm:p-7">
-          <AuthForm mode="login" />
-        </Card>
-        <a
-          href="/api/auth/google"
-          className="mt-4 inline-flex items-center justify-center rounded-full border border-line-strong bg-surface px-5 py-2.5 text-sm font-bold text-ink transition hover:border-ink/40"
-        >
-          Continuer avec Google
-        </a>
-      </div>
+      <AuthShell
+        title="Reprenez le fil de vos projets."
+        description="Retrouvez vos offres, vos échanges et votre espace de travail Taf Africa."
+        cues={[
+          "Consultez les missions et les profils sans frais.",
+          "Retrouvez vos offres, vos crédits et vos conversations au même endroit.",
+          "Le paiement Mobile Money et par carte reste disponible pour vos abonnements.",
+        ]}
+        panelTitle="Votre compte"
+        panelDescription="Connectez-vous avec votre adresse e-mail ou avec Google."
+        footer={
+          <>
+            <AuthDivider />
+            <GoogleAuthLink label="Continuer avec Google" />
+            <DemoAccounts />
+          </>
+        }
+      >
+        <AuthForm mode="login" />
+      </AuthShell>
     </SiteFrame>
   );
 }

@@ -25,15 +25,6 @@ async function main() {
     .insert(plans)
     .values([
       {
-        code: "free",
-        name: "Membre gratuit",
-        priceCents: 0,
-        priceXaf: 0,
-        monthlyCredits: 0,
-        canSeeClient: false,
-        sortOrder: 0,
-      },
-      {
         code: "pro",
         name: "Pro",
         priceCents: 3190,

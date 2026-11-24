@@ -1,3 +1,4 @@
+import { CopyReferralButton } from "@/components/copy-referral-button";
 import { DashboardShell } from "@/components/dashboard-shell";
 import { ButtonLink, Card, Stat } from "@/components/ui";
 import { requireUser } from "@/lib/auth";
@@ -32,7 +33,7 @@ export default async function ParrainagePage() {
         </p>
         <div className="mt-4 flex flex-wrap gap-2">
           <ButtonLink href={`/inscription?ref=${stats.code}`}>Ouvrir le lien d&apos;invitation</ButtonLink>
-          <ButtonLink href="/abonnements" variant="secondary">Voir mes crédits</ButtonLink>
+          <CopyReferralButton path={`/inscription?ref=${stats.code}`} />
         </div>
       </Card>
     </DashboardShell>

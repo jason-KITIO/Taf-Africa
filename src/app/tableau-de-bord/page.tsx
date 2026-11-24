@@ -3,6 +3,7 @@ import { DashboardShell } from "@/components/dashboard-shell";
 import { Card, PageHeader, Stat } from "@/components/ui";
 import { requireUser } from "@/lib/auth";
 import {
+  getAdminStats,
   getCreditBalance,
   getCreditEntries,
   getNotificationsForUser,
@@ -16,11 +17,12 @@ export const dynamic = "force-dynamic";
 
 export default async function DashboardPage() {
   const user = await requireUser();
-  const plan = getUserPlan(user.id);
-  const credits = getCreditBalance(user.id);
   const unread = getNotificationsForUser(user.id).filter((item) => !item.readAt).length;
   const projects = user.role === "client" ? getProjectsForClient(user.id).length : 0;
   const quotes = user.role === "client" ? getQuotesForClient(user.id).length : getQuotesForFreelance(user.id).length;
+  const adminStats = user.role === "admin" ? getAdminStats() : null;
+  const plan = user.role === "freelance" ? getUserPlan(user.id) : null;
+  const credits = user.role === "freelance" ? getCreditBalance(user.id) : null;
 
   return (
     <DashboardShell
@@ -29,12 +31,27 @@ export default async function DashboardPage() {
       title={`Bonjour ${user.name.split(" ")[0]}`}
       description="Votre espace de travail Taf Africa, à jour et sans détour."
     >
-      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-        <Stat label="Formule" value={plan.name} hint={`${plan.monthlyCredits} crédits / 30 jours`} />
-        <Stat label="Crédits disponibles" value={credits} hint={user.role === "freelance" ? "1 simple · 15 premium" : "Pour vos abonnements"} />
-        <Stat label={user.role === "client" ? "Projets publiés" : "Offres envoyées"} value={user.role === "client" ? projects : quotes} />
-        <Stat label="Notifications non lues" value={unread} />
-      </div>
+        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          {plan && credits !== null ? (
+            <>
+              <Stat label="Formule" value={plan.name} hint={`${plan.monthlyCredits} crédits / 30 jours`} />
+              <Stat label="Crédits disponibles" value={credits} hint="1 simple · 15 premium" />
+            </>
+          ) : null}
+          {user.role === "admin" && adminStats ? (
+            <Stat label="Utilisateurs" value={adminStats.users} />
+          ) : user.role === "client" ? (
+            <Stat label="Projets publiés" value={projects} />
+          ) : (
+            <Stat label="Offres envoyées" value={quotes} />
+          )}
+          {user.role === "admin" && adminStats ? (
+            <Stat label="Projets" value={adminStats.projects} />
+          ) : user.role === "client" ? (
+            <Stat label="Offres reçues" value={quotes} />
+          ) : null}
+          <Stat label="Notifications non lues" value={unread} />
+        </div>
 
       <div className="mt-6">
         <PageHeader

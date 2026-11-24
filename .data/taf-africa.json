@@ -43,6 +43,17 @@
       "createdAt": "2026-08-20T20:24:29.833Z",
       "identityVerified": false,
       "referralCode": "ADMIN-TA-1249"
+    },
+    {
+      "id": "user_9936df88-d",
+      "name": "jason kitio",
+      "email": "kanamax00@gmail.com",
+      "passwordHash": "4cc10b9d8964fa80bed68c36fa97e8bd:9e04deadf14ac20bb68ea89859436dee8202629905b42a448808fc02a05d5d487e0ee45beabbea64901a00ac84bc0ba26de87e3d6c15ff8417c89e8725cd6910",
+      "role": "client",
+      "banned": false,
+      "identityVerified": false,
+      "referralCode": "JASON-KI-9D9C",
+      "createdAt": "2026-11-24T19:38:05.514Z"
     }
   ],
   "freelanceProfiles": [
@@ -100,6 +111,12 @@
       "city": "Dakar",
       "country": "Sénégal",
       "phone": "+221 77 000 00 00"
+    },
+    {
+      "userId": "user_9936df88-d",
+      "companyName": "",
+      "city": "",
+      "country": ""
     }
   ],
   "portfolioItems": [
@@ -234,7 +251,7 @@
       "status": "open",
       "maxQuotes": 10,
       "quotesCount": 2,
-      "viewsCount": 140,
+      "viewsCount": 146,
       "publishedAt": "2026-11-16T20:24:29.833Z",
       "createdAt": "2026-11-16T20:24:29.833Z"
     },
@@ -352,21 +369,6 @@
     }
   ],
   "plans": [
-    {
-      "code": "free",
-      "name": "Gratuit",
-      "priceCents": 0,
-      "priceXaf": 0,
-      "monthlyCredits": 0,
-      "canSeeClient": false,
-      "isFeatured": false,
-      "description": "Pour découvrir la plateforme et répondre à vos premiers projets.",
-      "features": [
-        "Projets publics",
-        "Profil freelance",
-        "Alertes par compétence"
-      ]
-    },
     {
       "code": "pro",
       "name": "Pro",
@@ -510,6 +512,22 @@
       "reason": "plan_renewal",
       "note": "Activation Pro",
       "createdAt": "2026-11-22T14:11:53.504Z"
+    },
+    {
+      "id": "credit_1632c529-7",
+      "userId": "user_freelance_demo",
+      "delta": 5,
+      "reason": "referral_bonus",
+      "note": "Bonus de parrainage",
+      "createdAt": "2026-11-24T19:38:05.514Z"
+    },
+    {
+      "id": "credit_089d9169-2",
+      "userId": "user_9936df88-d",
+      "delta": 5,
+      "reason": "referral_bonus",
+      "note": "Bonus de parrainage",
+      "createdAt": "2026-11-24T19:38:05.514Z"
     }
   ],
   "payments": [
@@ -636,6 +654,24 @@
   ],
   "notifications": [
     {
+      "id": "notif_a4093f88-5",
+      "userId": "user_9936df88-d",
+      "type": "system",
+      "title": "Bienvenue sur Taf Africa",
+      "body": "Votre compte est prêt. Complétez votre profil pour commencer.",
+      "url": "/profil",
+      "createdAt": "2026-11-24T19:38:05.514Z"
+    },
+    {
+      "id": "notif_1a4db3e7-6",
+      "userId": "user_freelance_demo",
+      "type": "referral",
+      "title": "Parrainage validé",
+      "body": "jason kitio a rejoint Taf Africa avec votre code. 5 crédits ajoutés.",
+      "url": "/parrainage",
+      "createdAt": "2026-11-24T19:38:05.514Z"
+    },
+    {
       "id": "notif_d24887dd-d",
       "userId": "user_freelance_demo",
       "type": "subscription",
@@ -705,5 +741,14 @@
   "escrows": [],
   "reviews": [],
   "disputes": [],
-  "referrals": []
+  "referrals": [
+    {
+      "id": "referral_c645dc6a-6",
+      "referrerId": "user_freelance_demo",
+      "invitedId": "user_9936df88-d",
+      "code": "KOFFI-ME-0280",
+      "bonus": 5,
+      "createdAt": "2026-11-24T19:38:05.514Z"
+    }
+  ]
 }

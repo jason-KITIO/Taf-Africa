@@ -39,6 +39,17 @@ export const projectSchema = z.object({
   attachmentNames: z.string().trim().optional(),
 });
 
+export const adminClientSchema = z.object({
+  name: z.string().trim().min(2, "Indiquez le nom du client."),
+  email: z.string().trim().toLowerCase().email("Adresse e-mail invalide."),
+  password: z.string().min(8, "Utilisez au moins 8 caractères."),
+  companyName: z.string().trim().max(120).optional(),
+});
+
+export const adminProjectSchema = projectSchema.extend({
+  clientId: z.string().min(1, "Choisissez un client."),
+});
+
 export const quoteSchema = z.object({
   price: z.coerce.number().int().min(1000, "Indiquez un prix réaliste."),
   deliveryDays: z.coerce.number().int().min(1).max(365),
@@ -51,7 +62,7 @@ export const messageSchema = z.object({
 });
 
 export const subscriptionSchema = z.object({
-  planCode: z.enum(["free", "pro", "pro_max", "agence"]),
+  planCode: z.enum(["pro", "pro_max", "agence"]),
   provider: z.enum(["orange_money", "mtn_momo", "wave", "moov_money", "card"]),
   phone: z.string().trim().max(40).optional(),
 });

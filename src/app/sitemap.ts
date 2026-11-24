@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
-
-const base = "https://taf-africa.com";
+import { getPublicFreelances, getPublicProjects } from "@/lib/demo-store";
+import { SITE_URL } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [
@@ -25,10 +25,33 @@ export default function sitemap(): MetadataRoute.Sitemap {
     `/annuaire?ville=${city}&competence=design`,
   ]);
 
-  return [...staticRoutes, ...directoryRoutes].map((path) => ({
-    url: `${base}${path}`,
+  const staticEntries = staticRoutes.map((path) => ({
+    url: `${SITE_URL}${path}`,
     lastModified: new Date(),
-    changeFrequency: path.startsWith("/annuaire") ? "weekly" : "monthly",
-    priority: path === "" ? 1 : path.startsWith("/annuaire") ? 0.7 : 0.6,
+    changeFrequency: path === "" ? ("monthly" as const) : ("weekly" as const),
+    priority: path === "" ? 1 : 0.7,
   }));
+
+  const directoryEntries = directoryRoutes.map((path) => ({
+    url: `${SITE_URL}${path}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly" as const,
+    priority: 0.6,
+  }));
+
+  const projectEntries = getPublicProjects().map((project) => ({
+    url: `${SITE_URL}/projets/${project.slug}`,
+    lastModified: new Date(project.publishedAt),
+    changeFrequency: "weekly" as const,
+    priority: 0.8,
+  }));
+
+  const freelanceEntries = getPublicFreelances().map((profile) => ({
+    url: `${SITE_URL}/freelances/${profile.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }));
+
+  return [...staticEntries, ...directoryEntries, ...projectEntries, ...freelanceEntries];
 }

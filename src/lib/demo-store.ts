@@ -14,7 +14,8 @@ import type {
   Invoice,
   Payment,
   PaymentProvider,
-  PlanCode,
+  PaidPlanCode,
+  Plan,
   Project,
   ProjectStatus,
   Quote,
@@ -30,6 +31,18 @@ const globalStore = globalThis as typeof globalThis & {
 };
 
 const DAY = 86_400_000;
+
+const NO_PLAN: Plan = {
+  code: "none",
+  name: "Sans formule",
+  priceCents: 0,
+  priceXaf: 0,
+  monthlyCredits: 0,
+  canSeeClient: false,
+  isFeatured: false,
+  description: "Aucune formule active.",
+  features: [],
+};
 
 function now(offsetDays = 0) {
   return new Date(Date.now() + offsetDays * DAY).toISOString();
@@ -163,17 +176,6 @@ function buildSeed(): DemoData {
   ];
 
   const plans: DemoData["plans"] = [
-    {
-      code: "free",
-      name: "Gratuit",
-      priceCents: 0,
-      priceXaf: 0,
-      monthlyCredits: 0,
-      canSeeClient: false,
-      isFeatured: false,
-      description: "Pour découvrir la plateforme et répondre à vos premiers projets.",
-      features: ["Projets publics", "Profil freelance", "Alertes par compétence"],
-    },
     {
       code: "pro",
       name: "Pro",
@@ -535,6 +537,10 @@ function normalize(data: DemoData): DemoData {
   data.reviews ??= [];
   data.disputes ??= [];
   data.referrals ??= [];
+  data.plans = data.plans.filter((plan) => (plan.code as string) !== "free");
+  data.subscriptions = data.subscriptions.filter(
+    (subscription) => (subscription.planCode as string) !== "free",
+  );
   for (const user of data.users) {
     user.identityVerified ??= false;
     user.referralCode ??= makeReferralCode(user.name);
@@ -543,7 +549,10 @@ function normalize(data: DemoData): DemoData {
     const owner = data.users.find((user) => user.id === profile.userId);
     profile.verified ??= owner?.identityVerified ?? false;
   }
-  for (const payment of data.payments) payment.kind ??= "subscription";
+  for (const payment of data.payments) {
+    payment.kind ??= "subscription";
+    if ((payment.planCode as string | undefined) === "free") delete payment.planCode;
+  }
   return data;
 }
 
@@ -614,7 +623,7 @@ export function getUserPlan(userId: string) {
   const subscription = data.subscriptions.find(
     (item) => item.userId === userId && item.status === "active",
   );
-  return data.plans.find((plan) => plan.code === subscription?.planCode) ?? data.plans[0];
+  return data.plans.find((plan) => plan.code === subscription?.planCode) ?? NO_PLAN;
 }
 
 export function getSubscription(userId: string) {
@@ -767,15 +776,6 @@ export function registerUser(input: {
         country: "",
       });
     }
-    data.subscriptions.push({
-      id: newId("sub"),
-      userId: id,
-      planCode: "free",
-      status: "active",
-      currentPeriodStart: now(),
-      currentPeriodEnd: now(30),
-      cancelAtPeriodEnd: false,
-    });
     const code = input.referralCode?.trim().toUpperCase();
     const referrer = code
       ? data.users.find((item) => item.referralCode.toUpperCase() === code && item.id !== id)
@@ -817,6 +817,47 @@ export function registerUser(input: {
       "/profil",
     );
     return { ok: true, message: "Compte créé. Vous êtes connecté." };
+  });
+}
+
+export function createClientByAdmin(input: {
+  name: string;
+  email: string;
+  password: string;
+  companyName?: string;
+}): ActionResult {
+  return mutate((data) => {
+    if (data.users.some((user) => user.email.toLowerCase() === input.email.toLowerCase())) {
+      return { ok: false, message: "Cette adresse e-mail est déjà utilisée." };
+    }
+    const id = newId("user");
+    const user: User = {
+      id,
+      name: input.name.trim(),
+      email: input.email.trim().toLowerCase(),
+      passwordHash: hashPassword(input.password),
+      role: "client",
+      banned: false,
+      identityVerified: false,
+      referralCode: makeReferralCode(input.name),
+      createdAt: now(),
+    };
+    data.users.push(user);
+    data.clientProfiles.push({
+      userId: id,
+      companyName: input.companyName?.trim() ?? "",
+      city: "",
+      country: "",
+    });
+    addNotification(
+      data,
+      id,
+      "system",
+      "Compte client créé",
+      "Votre compte client a été créé par l'administrateur.",
+      "/tableau-de-bord",
+    );
+    return { ok: true, message: `Client ${user.name} créé.` };
   });
 }
 
@@ -1157,7 +1198,7 @@ export function markConversationRead(userId: string, conversationId: string) {
 
 export function subscribeUser(input: {
   userId: string;
-  planCode: PlanCode;
+  planCode: PaidPlanCode;
   provider: PaymentProvider;
   phone?: string;
 }): ActionResult {
@@ -1423,11 +1464,10 @@ function addPaymentRecord(
     phone?: string;
   },
 ) {
-  const payment: Payment = {
-    id: newId("payment"),
-    userId: input.userId,
-    planCode: "free",
-    provider: input.provider,
+    const payment: Payment = {
+      id: newId("payment"),
+      userId: input.userId,
+      provider: input.provider,
     kind: input.kind,
     quoteId: input.quoteId,
     phone: input.phone,

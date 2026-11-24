@@ -8,12 +8,14 @@ import {
   toggleBanAction,
 } from "@/app/actions/admin";
 import { resolveDisputeAction, verifyProfileAction } from "@/app/actions/v2";
+import { AdminClientForm, AdminProjectForm } from "@/components/admin-forms";
 import { Avatar, Card, EmptyState, Stat, StatusPill } from "@/components/ui";
 import { requireRole } from "@/lib/auth";
 import {
   getAllCreditEntries,
   getAllDisputes,
   getAllPayments,
+  getCategories,
   getAllProjects,
   getAllReports,
   getAllUsers,
@@ -25,6 +27,7 @@ import { formatDate, formatMoney } from "@/lib/format";
 export const dynamic = "force-dynamic";
 
 const sections = {
+  creation: { title: "Création", description: "Créer des clients et publier des projets pour eux." },
   users: { title: "Utilisateurs", description: "Comptes, rôles, suspension et solde de crédits." },
   projects: { title: "Projets", description: "Visibility, clos et modération des annonces." },
   reports: { title: "Signalements", description: "Traitement des alertes de la communauté." },
@@ -61,6 +64,7 @@ export default async function AdminSectionPage({
       </div>
 
       <div className="mt-6">
+        {activeSection === "creation" ? <CreationSection /> : null}
         {activeSection === "users" ? <UsersSection currentAdminId={user.id} /> : null}
         {activeSection === "projects" ? <ProjectsSection /> : null}
         {activeSection === "reports" ? <ReportsSection /> : null}
@@ -69,6 +73,32 @@ export default async function AdminSectionPage({
         {activeSection === "disputes" ? <DisputesSection /> : null}
       </div>
     </DashboardShell>
+  );
+}
+
+function CreationSection() {
+  const clients = getAllUsers()
+    .filter((user) => user.role === "client")
+    .map((user) => ({ id: user.id, name: user.name, email: user.email }));
+  const categories = getCategories().map((category) => ({ slug: category.slug, name: category.name }));
+
+  return (
+    <div className="grid gap-6 lg:grid-cols-2">
+      <Card>
+        <h2 className="text-base font-bold text-ink">Créer un client</h2>
+        <p className="mt-1 text-sm text-muted">Le client pourra se connecter avec le mot de passe choisi.</p>
+        <div className="mt-4">
+          <AdminClientForm />
+        </div>
+      </Card>
+      <Card>
+        <h2 className="text-base font-bold text-ink">Créer un projet</h2>
+        <p className="mt-1 text-sm text-muted">Le projet est publié au nom du client sélectionné.</p>
+        <div className="mt-4">
+          <AdminProjectForm clients={clients} categories={categories} />
+        </div>
+      </Card>
+    </div>
   );
 }
 
@@ -306,7 +336,7 @@ function PaymentsSection() {
               <div>
                 <p className="tnum font-bold text-ink">{formatMoney(payment.amount, payment.currency)}</p>
                 <p className="mt-1 text-sm text-muted">
-                  {payment.planCode} · {payment.provider.replace("_", " ")} · {formatDate(payment.createdAt)}
+                  {payment.planCode ?? "Paiement"} · {payment.provider.replace("_", " ")} · {formatDate(payment.createdAt)}
                 </p>
               </div>
               <StatusPill tone={payment.status === "succeeded" ? "success" : "warning"}>{payment.status}</StatusPill>

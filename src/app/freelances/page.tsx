@@ -2,7 +2,7 @@ import Link from "next/link";
 import { SiteFrame } from "@/components/site-frame";
 import { Avatar, Card, PageHeader, StatusPill } from "@/components/ui";
 import { formatMoney } from "@/lib/format";
-import { getPublicFreelances, getStore, getUserPlan } from "@/lib/demo-store";
+import { getPublicFreelances, getStore } from "@/lib/demo-store";
 
 export const metadata = { title: "Annuaire des freelances" };
 
@@ -21,7 +21,6 @@ export default function FreelancesPage() {
         <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {freelances.map((profile) => {
             const user = users.find((item) => item.id === profile.userId);
-            const plan = getUserPlan(profile.userId);
             return (
               <Link key={profile.userId} href={`/freelances/${profile.slug}`} className="block">
                 <Card className="h-full transition hover:border-line-strong hover:shadow-lift">
@@ -44,7 +43,7 @@ export default function FreelancesPage() {
                     <span className="tnum text-sm font-bold text-ink">
                       {formatMoney(profile.dailyRate, profile.rateCurrency)} / jour
                     </span>
-                    {plan.code !== "free" ? <StatusPill tone="success">Profil vérifié</StatusPill> : null}
+                    {profile.verified ? <StatusPill tone="success">Profil vérifié</StatusPill> : null}
                   </div>
                 </Card>
               </Link>

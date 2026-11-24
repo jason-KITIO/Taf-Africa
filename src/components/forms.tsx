@@ -15,6 +15,9 @@ import { cn } from "@/lib/utils";
 
 const initialState: ActionResult = { ok: true, message: "" };
 
+const authInputClass =
+  "w-full rounded-xl border border-line-strong bg-paper px-4 py-3 text-sm text-ink outline-none transition placeholder:text-muted/60 focus:border-amber-strong focus:bg-surface";
+
 function SubmitButton({
   children,
   className,
@@ -32,7 +35,7 @@ function SubmitButton({
       type="submit"
       disabled={pending || disabled}
       className={cn(
-        "inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-bold transition disabled:cursor-wait disabled:opacity-60",
+        "inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-bold transition disabled:cursor-wait disabled:opacity-60",
         variant === "primary"
           ? "bg-amber-strong text-paper hover:bg-amber-strong-hover"
           : "border border-line-strong bg-surface text-ink hover:border-ink/40",
@@ -75,34 +78,125 @@ export function AuthForm({
   );
 
   return (
-    <form action={formAction} className="space-y-4">
+    <form action={formAction} className="space-y-5">
       <Notice state={state} />
       {mode === "register" ? (
-        <Field label="Nom complet" error={state.fieldErrors?.name}>
-          <input name="name" className={inputClass} placeholder="Amina Diallo" required />
-        </Field>
+        <label className="block">
+          <span className="text-sm font-bold text-ink">Nom complet</span>
+          <span className="mt-2 block">
+            <input
+              name="name"
+              className={authInputClass}
+              placeholder="Amina Diallo"
+              autoComplete="name"
+              required
+            />
+          </span>
+          {state.fieldErrors?.name ? (
+            <span className="mt-1.5 block text-xs font-semibold text-red-600">
+              {state.fieldErrors.name}
+            </span>
+          ) : null}
+        </label>
       ) : null}
-      <Field label="Adresse e-mail" error={state.fieldErrors?.email}>
-        <input name="email" type="email" className={inputClass} placeholder="vous@exemple.com" required />
-      </Field>
-      <Field label="Mot de passe" error={state.fieldErrors?.password}>
-        <input name="password" type="password" className={inputClass} placeholder="Au moins 8 caractères" required />
-      </Field>
+      <label className="block">
+        <span className="text-sm font-bold text-ink">Adresse e-mail</span>
+        <span className="mt-2 block">
+          <input
+            name="email"
+            type="email"
+            className={authInputClass}
+            placeholder="vous@exemple.com"
+            autoComplete="email"
+            required
+          />
+        </span>
+        {state.fieldErrors?.email ? (
+          <span className="mt-1.5 block text-xs font-semibold text-red-600">
+            {state.fieldErrors.email}
+          </span>
+        ) : null}
+      </label>
+      <label className="block">
+        <span className="text-sm font-bold text-ink">Mot de passe</span>
+        <span className="mt-2 block">
+          <input
+            name="password"
+            type="password"
+            className={authInputClass}
+            placeholder={mode === "login" ? "Votre mot de passe" : "Au moins 8 caractères"}
+            autoComplete={mode === "login" ? "current-password" : "new-password"}
+            required
+          />
+        </span>
+        {state.fieldErrors?.password ? (
+          <span className="mt-1.5 block text-xs font-semibold text-red-600">
+            {state.fieldErrors.password}
+          </span>
+        ) : null}
+      </label>
       {mode === "register" ? (
-        <Field label="Je suis" error={state.fieldErrors?.role}>
-          <select name="role" className={inputClass} defaultValue={defaultRole}>
-            <option value="client">Client — je publie des projets</option>
-            <option value="freelance">Freelance — je réponds aux projets</option>
-          </select>
-        </Field>
+        <fieldset>
+          <legend className="text-sm font-bold text-ink">Je suis</legend>
+          <div className="mt-2 grid grid-cols-2 gap-2.5">
+            <label className="cursor-pointer">
+              <input
+                type="radio"
+                name="role"
+                value="client"
+                defaultChecked={defaultRole === "client"}
+                className="peer sr-only"
+              />
+              <span className="block rounded-xl border border-line-strong bg-paper px-3 py-3 transition hover:border-ink/40 peer-checked:border-amber-strong peer-checked:bg-amber-soft/50 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-amber-strong">
+                <span className="block text-sm font-bold text-ink">Client</span>
+                <span className="mt-0.5 block text-xs leading-snug text-muted">
+                  Je publie des projets
+                </span>
+              </span>
+            </label>
+            <label className="cursor-pointer">
+              <input
+                type="radio"
+                name="role"
+                value="freelance"
+                defaultChecked={defaultRole === "freelance"}
+                className="peer sr-only"
+              />
+              <span className="block rounded-xl border border-line-strong bg-paper px-3 py-3 transition hover:border-ink/40 peer-checked:border-amber-strong peer-checked:bg-amber-soft/50 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-amber-strong">
+                <span className="block text-sm font-bold text-ink">Freelance</span>
+                <span className="mt-0.5 block text-xs leading-snug text-muted">
+                  Je réponds aux projets
+                </span>
+              </span>
+            </label>
+          </div>
+          {state.fieldErrors?.role ? (
+            <span className="mt-1.5 block text-xs font-semibold text-red-600">
+              {state.fieldErrors.role}
+            </span>
+          ) : null}
+        </fieldset>
       ) : null}
       {mode === "register" && referralCode ? (
         <input type="hidden" name="referralCode" value={referralCode} />
       ) : null}
-      <SubmitButton className="w-full">
-        {mode === "login" ? "Se connecter" : "Créer mon compte"}
+      <SubmitButton className="w-full min-h-12">
+        <span>{mode === "login" ? "Se connecter" : "Créer mon compte"}</span>
+        <svg
+          viewBox="0 0 20 20"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="size-4"
+          aria-hidden="true"
+        >
+          <path d="M4 10h11" />
+          <path d="m11 6 4 4-4 4" />
+        </svg>
       </SubmitButton>
-      <p className="text-center text-sm text-muted">
+      <p className="border-t border-line pt-5 text-center text-sm text-muted">
         {mode === "login" ? (
           <>
             Pas encore de compte ?{" "}
@@ -119,12 +213,6 @@ export function AuthForm({
           </>
         )}
       </p>
-      {mode === "login" ? (
-        <p className="rounded-xl bg-sand/70 px-3.5 py-3 text-xs leading-relaxed text-muted">
-          Comptes de démonstration : client@taf-africa.com, freelance@taf-africa.com ou
-          admin@taf-africa.com — mot de passe <strong>demo1234</strong>.
-        </p>
-      ) : null}
     </form>
   );
 }
@@ -378,9 +466,8 @@ export function MessageForm({ conversationId }: { conversationId: string }) {
 }
 
 export function SubscribeForm({ plans }: { plans: Plan[] }) {
-  const payable = plans.filter((plan) => plan.code !== "free");
-  const [planCode, setPlanCode] = useState(payable[0]?.code ?? "pro");
-  const selected = payable.find((plan) => plan.code === planCode) ?? payable[0];
+  const [planCode, setPlanCode] = useState(plans[0]?.code ?? "pro");
+  const selected = plans.find((plan) => plan.code === planCode) ?? plans[0];
   const [state, formAction] = useActionState(subscribeAction, initialState);
   return (
     <form action={formAction} className="space-y-5">
@@ -392,7 +479,7 @@ export function SubscribeForm({ plans }: { plans: Plan[] }) {
           value={planCode}
           onChange={(event) => setPlanCode(event.target.value as typeof planCode)}
         >
-          {payable.map((plan) => (
+          {plans.map((plan) => (
             <option key={plan.code} value={plan.code}>
               {plan.name} — {plan.monthlyCredits} crédits / 30 jours
             </option>

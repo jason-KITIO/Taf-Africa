@@ -1,0 +1,34 @@
+# Taf Africa
+
+> Marketplace en français qui met en relation des clients et des freelances d'Afrique francophone. Les visiteurs peuvent consulter les missions, les budgets et les profils sans compte.
+
+Taf Africa aide deux publics : les clients qui publient des besoins précis et les freelances qui cherchent des missions. Les échanges se font sur la plateforme, avec paiement sécurisé par Mobile Money ou carte bancaire.
+
+## Pages utiles
+
+- [Accueil](https://taf-africa.com/) — présentation du service et des tarifs freelance.
+- [Projets disponibles](https://taf-africa.com/projets) — appels d'offres publics, filtrables par catégorie.
+- [Annuaire des freelances](https://taf-africa.com/freelances) — profils publics avec compétences, tarifs et disponibilité.
+- [Annuaire par ville et compétence](https://taf-africa.com/annuaire) — recherche de talents par ville et spécialité.
+- [Sitemap](https://taf-africa.com/sitemap.xml) — liste des pages publiques indexables.
+- [robots.txt](https://taf-africa.com/robots.txt) — règles d'accès pour les crawler.
+
+## Pour les personnes qui cherchent du travail
+
+- Parcourir les missions et les budgets est ouvert à tous sur `/projets`.
+- Chaque mission indique un budget en FCFA, un délai et les compétences attendues.
+- Les freelances peuvent créer un profil public, présenter leurs réalisations et recevoir des alertes par compétence.
+- Répondre à une mission consomme des crédits : 1 crédit pour une offre simple, 15 crédits pour une offre premium.
+- Aucune création de société n'est requise pour travailler.
+
+## Faits à retenir
+
+- Marché ciblé : Afrique francophone.
+- Langue du site : français.
+- Paiements : Mobile Money et carte bancaire en mode démonstration tant que les opérateurs ne sont pas configurés.
+- Commission plateforme : 4 % sur chaque mission réglée.
+- Les offres premium sont limitées à 4 par mission.
+
+## Résumé court
+
+Taf Africa est une marketplace francophone pour trouver des missions freelance en Afrique, consulter des budgets en FCFA et mettre en relation clients et talents vérifiés.

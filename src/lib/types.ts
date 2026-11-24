@@ -2,7 +2,8 @@ export type Role = "client" | "freelance" | "admin";
 export type ProjectStatus = "open" | "closed" | "awarded" | "cancelled" | "hidden";
 export type QuoteType = "simple" | "premium";
 export type QuoteStatus = "sent" | "studied" | "accepted" | "rejected" | "withdrawn";
-export type PlanCode = "free" | "pro" | "pro_max" | "agence";
+export type PlanCode = "none" | "pro" | "pro_max" | "agence";
+export type PaidPlanCode = Exclude<PlanCode, "none">;
 export type PaymentProvider = "orange_money" | "mtn_momo" | "wave" | "moov_money" | "card";
 export type PaymentKind =
   | "subscription"
@@ -122,7 +123,7 @@ export interface Plan {
 export interface Subscription {
   id: string;
   userId: string;
-  planCode: PlanCode;
+  planCode: PaidPlanCode;
   status: "active" | "canceled" | "expired" | "pending";
   currentPeriodStart: string;
   currentPeriodEnd: string;
@@ -147,7 +148,7 @@ export interface CreditEntry {
 export interface Payment {
   id: string;
   userId: string;
-  planCode: PlanCode;
+  planCode?: PaidPlanCode;
   provider: PaymentProvider;
   kind: PaymentKind;
   quoteId?: string;

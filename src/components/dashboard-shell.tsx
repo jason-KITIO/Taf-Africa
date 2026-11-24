@@ -19,7 +19,6 @@ const byRole: Record<Role, NavItem[]> = {
     { label: "Mes projets", href: "/projets" },
     { label: "Publier un besoin", href: "/projets/nouveau" },
     { label: "Offres reçues", href: "/offres" },
-    { label: "Abonnement", href: "/abonnements" },
     { label: "Factures", href: "/factures" },
     { label: "Paiements sécurisés", href: "/paiements" },
     { label: "Avis", href: "/avis" },
@@ -37,6 +36,7 @@ const byRole: Record<Role, NavItem[]> = {
     { label: "Parrainage", href: "/parrainage" },
   ],
   admin: [
+    { label: "Création", href: "/admin/creation" },
     { label: "Utilisateurs", href: "/admin/users" },
     { label: "Projets", href: "/admin/projects" },
     { label: "Signalements", href: "/admin/reports" },

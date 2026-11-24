@@ -1,34 +1,46 @@
-import { SiteFrame } from "@/components/site-frame";
 import { AuthForm } from "@/components/forms";
-import { Card } from "@/components/ui";
+import { AuthDivider, AuthShell, GoogleAuthLink } from "@/components/auth-shell";
+import { SiteFrame } from "@/components/site-frame";
+import { getCurrentUser } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
-export const metadata = { title: "Inscription" };
+export const metadata = {
+  title: "Inscription",
+  description: "Créez votre compte client ou freelance sur Taf Africa.",
+};
 
 export default async function InscriptionPage({
   searchParams,
 }: {
   searchParams: Promise<{ role?: string; ref?: string }>;
 }) {
+  const user = await getCurrentUser();
+  if (user) redirect("/tableau-de-bord");
+
   const { role, ref } = await searchParams;
   const defaultRole = role === "freelance" ? "freelance" : "client";
 
   return (
     <SiteFrame>
-      <div className="mx-auto flex w-full max-w-md flex-col px-5 py-14 sm:px-8 sm:py-20">
-        <div className="mb-6 text-center">
-          <h1 className="text-3xl font-extrabold tracking-[-0.03em] text-ink">Créez votre compte</h1>
-          <p className="mt-2 text-sm text-muted">Client ou freelance, tout commence ici.</p>
-        </div>
-        <Card className="p-6 sm:p-7">
-          <AuthForm mode="register" defaultRole={defaultRole} referralCode={ref ?? ""} />
-        </Card>
-        <a
-          href="/api/auth/google"
-          className="mt-4 inline-flex items-center justify-center rounded-full border border-line-strong bg-surface px-5 py-2.5 text-sm font-bold text-ink transition hover:border-ink/40"
-        >
-          S&apos;inscrire avec Google
-        </a>
-      </div>
+      <AuthShell
+        title="Créez votre compte Taf Africa."
+        description="Client ou freelance, réunissez vos projets, vos offres et vos échanges dans un seul espace."
+        cues={[
+          "Consultez les profils et les missions sans frais.",
+          "Publiez un besoin ou présentez votre profil freelance.",
+          "Candidatez avec des crédits ou un abonnement, puis payez en Mobile Money ou par carte.",
+        ]}
+        panelTitle="Votre inscription"
+        panelDescription="Choisissez votre rôle et renseignez vos informations."
+        footer={
+          <>
+            <AuthDivider />
+            <GoogleAuthLink label="S&apos;inscrire avec Google" />
+          </>
+        }
+      >
+        <AuthForm mode="register" defaultRole={defaultRole} referralCode={ref ?? ""} />
+      </AuthShell>
     </SiteFrame>
   );
 }
