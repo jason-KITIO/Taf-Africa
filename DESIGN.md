@@ -2,35 +2,39 @@
 name: Taf Africa
 description: La marketplace qui réunit les clients et les freelances d'Afrique francophone.
 colors:
-  paper: "#fafaf7"
-  surface: "#ffffff"
-  sand: "#f4efe3"
-  ink: "#14171c"
-  ink-soft: "#333941"
-  muted: "#4b525c"
-  line: "#e4dfd2"
-  line-strong: "#cdc5b3"
-  amber: "#e0900e"
-  amber-deep: "#b4700a"
-  amber-strong: "#9a5f08"
-  amber-strong-hover: "#7f4d06"
-  amber-soft: "#fbeccb"
+  matter: "#121113"
+  panel: "#1a191c"
+  raised: "#222124"
+  line: "#2c2b30"
+  line-strong: "#414046"
+  ink: "#f4f2ed"
+  ink-soft: "#d1cfc9"
+  muted: "#a09fa6"
+  teal: "#74b9b6"
+  teal-deep: "#026466"
+  lime: "#cfdc00"
+  lime-hover: "#e2f000"
+  lime-soft: "#262a08"
+  clay: "#e78a53"
+  success: "#7fd1a5"
+  danger: "#f08a8a"
+  info: "#8fb8e8"
 typography:
   display:
     fontFamily: "Hanken Grotesk, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "2.25rem"
+    fontSize: "clamp(2.5rem, 6vw, 4.5rem)"
     fontWeight: 800
-    lineHeight: 1.05
-    letterSpacing: "-0.03em"
+    lineHeight: 1.02
+    letterSpacing: "-0.045em"
   headline:
     fontFamily: "Hanken Grotesk, ui-sans-serif, system-ui, sans-serif"
     fontSize: "1.5rem"
     fontWeight: 700
-    lineHeight: 1.2
-    letterSpacing: "-0.01em"
+    lineHeight: 1.15
+    letterSpacing: "-0.02em"
   title:
     fontFamily: "Hanken Grotesk, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "1.125rem"
+    fontSize: "1.0625rem"
     fontWeight: 700
     lineHeight: 1.35
   body:
@@ -45,7 +49,7 @@ typography:
     lineHeight: 1.6
   label:
     fontFamily: "Hanken Grotesk, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "0.75rem"
+    fontSize: "11px"
     fontWeight: 700
     lineHeight: 1.4
     letterSpacing: "0.18em"
@@ -64,13 +68,13 @@ typography:
     fontSize: "22px"
     fontWeight: 800
     lineHeight: 1
-    letterSpacing: "-0.02em"
+    letterSpacing: "-0.05em"
   hero-mobile:
     fontFamily: "Hanken Grotesk, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "2.4rem"
+    fontSize: "2.5rem"
     fontWeight: 800
-    lineHeight: 1.05
-    letterSpacing: "-0.03em"
+    lineHeight: 1.02
+    letterSpacing: "-0.045em"
 rounded:
   focus: "3px"
   xs: "4px"
@@ -88,33 +92,33 @@ spacing:
   section: "32px"
 components:
   button-primary:
-    backgroundColor: "{colors.amber-strong}"
-    textColor: "{colors.paper}"
+    backgroundColor: "{colors.lime}"
+    textColor: "{colors.matter}"
     rounded: "{rounded.pill}"
-    padding: "8px 16px"
+    padding: "10px 18px"
   button-primary-hover:
-    backgroundColor: "{colors.amber-strong-hover}"
-    textColor: "{colors.paper}"
+    backgroundColor: "{colors.lime-hover}"
+    textColor: "{colors.matter}"
     rounded: "{rounded.pill}"
-    padding: "8px 16px"
+    padding: "10px 18px"
   button-secondary:
-    backgroundColor: "{colors.surface}"
+    backgroundColor: "transparent"
     textColor: "{colors.ink}"
     rounded: "{rounded.pill}"
-    padding: "8px 16px"
+    padding: "10px 18px"
   card:
-    backgroundColor: "{colors.surface}"
+    backgroundColor: "{colors.panel}"
     textColor: "{colors.ink}"
     rounded: "{rounded.lg}"
     padding: "20px"
   input:
-    backgroundColor: "{colors.paper}"
+    backgroundColor: "{colors.matter}"
     textColor: "{colors.ink}"
     rounded: "{rounded.md}"
     padding: "10px 14px"
   status-pill:
-    backgroundColor: "{colors.amber-soft}"
-    textColor: "{colors.amber-strong}"
+    backgroundColor: "{colors.raised}"
+    textColor: "{colors.ink-soft}"
     rounded: "{rounded.pill}"
     padding: "4px 10px"
 ---
@@ -123,121 +127,105 @@ components:
 
 ## Overview
 
-**Creative North Star: "L'atelier de confiance".** seed:918cd4be8c57c633
+**Creative North Star : « L'atelier de confiance, version nuit ».** seed:918cd4be8c57c633
 
-Taf Africa ressemble à un atelier de travail soigné plus qu'à une place de marché bruyante : fond papier chaud, encre nette, ambre rare et décisif, cartes calmes, chiffres alignés. Le système refuse le spectacle inutile et laisse la confiance venir de la précision des informations : prix, statuts, délais, vérifications et responsables sont toujours lisibles avant toute décoration.
+Le système précédent était trop « papier startup ». La nouvelle direction emprunte à XING sa clarté moderniste — hiérarchie typographique forte, structure visible, poignée de couleurs, visages en superellipse — et à Darkmatter son sol presque noir, ses lignes fines et ses accents minéraux. Le résultat doit lire comme un outil de travail professionnel, pas comme une interface IA générique : moins de cartes empilées, plus de hiérarchie, de règles, de chiffres alignés et d'états explicites.
 
-Le site public persuade par la clarté et la preuve ; le dashboard opère avec densité maîtrisée. Les deux mondes partagent la même grille, le même vocabulaire de composants et la même hiérarchie. L'ambre est le signal d'action, pas un fond général ; quand tout est accent, plus rien ne guide.
+Le site public persuade par la clarté et le mécanisme ; le dashboard opère avec densité maîtrisée. Les deux mondes partagent la même grille et le même vocabulaire. Le citron est le signal d'action, le teal la structure, l'argile l'alerte. Quand tout est accent, plus rien ne guide.
 
-**Key Characteristics:**
-- Papier chaud, surface blanche, ambre utilisé comme signal rare.
-- Hiérarchie typographique courte, dense et très lisible.
-- Cartes à bords fins, ombres douces, aucun faux effet de profondeur.
-- État visible partout : statut, crédit, vérification, paiement, litige.
-- Mobile d'abord : navigation horizontale dans le dashboard, jamais de débordement.
+**Key Characteristics :**
+- Fond `matter` quasi noir, panneaux `panel`, séparateurs `line` d'un pixel.
+- Citron `#cfdc00` : une seule action principale par écran, jamais un fond décoratif.
+- Teal `#74b9b6` : axes, labels, liens, états neutres-actifs.
+- Argile `#e78a53` : alertes et informations importantes, jamais la navigation.
+- Typographie courte, dense, très lisible ; chiffres en `tnum`, statuts toujours écrits.
 
 ## Colors
 
-La palette oppose un fond papier légèrement crème à une encre quasi noire, avec un ambre artisanal réservé aux actions et aux repères de marque.
+La palette vient du preset Darkmatter (sol, panneaux, argile) croisé avec les couleurs de marque XING (teal profond, citron). Les tokens historiques `paper`, `surface`, `sand`, `amber-*`, `ink`, `line` sont conservés comme alias pour ne pas casser les écrans existants ; le code nouveau utilise les noms ci-dessous.
 
-### Primary
-- **Ambre profond** (#9a5f08) : action principale, focus, liens internes importants.
-- **Ambre de survol** (#7f4d06) : état survol des actions principales.
-- **Ambre clair** (#e0900e) : sélection, liserés de marque, points d'accent.
-- **Ambre doux** (#fbeccb) : pastilles d'état et aplats d'alerte non critiques.
+### Signal
+- **Citron** `#cfdc00` : action principale, focus, point final du logo. Survol `#e2f000`.
+- **Citron doux** `#262a08` : aplat de sélection et pastille d'action secondaire.
+- **Teal** `#74b9b6` : labels, liens, repères de structure, succès discret.
+- **Teal profond** `#026466` : ancrage de marque XING, utilisé en accent rare.
+- **Argile** `#e78a53` : alertes, avertissements, montants à régler.
 
-### Secondary
-- **Sable** (#f4efe3) : avatars, pastilles neutres, aplats de section discrets.
-- **Papier** (#fafaf7) : fond global, champs, zones de contenu calmes.
-
-### Neutral
-- **Surface** (#ffffff) : cartes, panneaux, en-têtes, zones surélevées.
-- **Encre** (#14171c) : titres, texte fort, barre de navigation active.
-- **Encre douce** (#333941) : corps de texte secondaire.
-- **Muette** (#4b525c) : descriptions, légendes, métadonnées.
-- **Ligne** (#e4dfd2) : séparateurs et bordures par défaut.
-- **Ligne forte** (#cdc5b3) : bordures de champs, boutons secondaires, barres d'outils.
+### Neutres
+- **Matière** `#121113` : fond global, champs, creux.
+- **Panneau** `#1a191c` : cartes, barres, surfaces posées.
+- **Surélevé** `#222124` : sous-panneaux, pastilles, états creux.
+- **Ligne** `#2c2b30` / **Ligne forte** `#414046` : séparateurs et bordures.
+- **Encre** `#f4f2ed`, **Encre douce** `#d1cfc9`, **Muette** `#a09fa6` : trois niveaux de lecture seulement.
 
 ### Named Rules
-**The One Accent Rule.** Une seule action principale par écran porte l'ambre profond en aplat. Les autres actions sont neutres ou textuelles.
+**The One Accent Rule.** Une seule action citron par écran. Les autres actions sont contondantes, bordées ou textuelles.
 
-**The Status Rule.** Un statut n'est jamais seulement une couleur : il porte toujours un libellé explicite.
+**The Status Rule.** Un statut n'est jamais seulement une couleur : il porte toujours un libellé explicite (`Vérifié`, `À vérifier`, `Payé`, `En litige`, `Lu`, `Non lu`).
+
+**The No-Glow Rule.** Pas de halo flou, pas de dégradé décoratif, pas de faux 3D, pas de verre dépoli. La profondeur vient des aplats et des lignes.
 
 ## Typography
 
-**Display Font:** Hanken Grotesk (fallback système sans-serif)  
-**Body Font:** Hanken Grotesk (fallback système sans-serif)
-
-**Character:** Une grotesque contemporaine, légèrement compacte, assez neutre pour disparaître devant les données mais assez affirmée dans les graisses 700–800 pour structurer l'écran.
+**Display Font :** Hanken Grotesk. Une seule famille, du logo aux tableaux. Aucune fonte display d'appoint.
 
 ### Hierarchy
-- **Display** (800, `text-3xl` puis `text-4xl`, tracking `-0.03em`, line-height ~1.05) : titres de pages publiques et promesses d'accueil.
-- **Headline** (700, `text-lg` à `text-2xl`) : titres de cartes, sections de dashboard, noms de freelances.
-- **Title** (700, `text-base`) : sous-titres, libellés de formulaire, actions fortes.
-- **Body** (400, `text-sm` à `text-base`, line-height 1.6) : descriptions, paragraphes, tableaux.
-- **Label** (700, `text-xs`, tracking `0.18em`, uppercase) : eyebrows, métadonnées, catégories.
+- **Display** (800, `clamp(2.5rem, 6vw, 4.5rem)`, tracking `-0.045em`) : promesses d'accueil et titres de page.
+- **Headline** (700, `1.5rem`) : titres de sections et noms de personnes.
+- **Title** (700, `1.0625rem`) : cartes, champs d'action, sous-titres.
+- **Body** (400, `15–16px`, line-height `1.6`) : descriptions, tableaux.
+- **Label** (700, `11px`, tracking `0.18em`, uppercase) : eyebrows et métadonnées.
 
 ### Named Rules
 **The Numeric Rule.** Prix, crédits, budgets, notes et compteurs utilisent toujours `tnum` avec `font-variant-numeric: tabular-nums`.
 
 ## Layout
 
-Le contenu public et le dashboard partagent un container `max-w-6xl`, avec `px-5` sur mobile et `sm:px-8` à partir de `640px`. Le header est sticky, haut de `64px`, avec un état translucide au scroll ; le dashboard ajoute une grille `lg:grid-cols-[220px_minmax(0,1fr)]`, une navigation horizontale scrollable sur mobile et une colonne de contenu `min-w-0`.
+Container `max-w-6xl`, `px-5` mobile / `sm:px-8` desktop. Header sticky `64px`, bordure fine dès le scroll. Dashboard : `lg:grid-cols-[220px_minmax(0,1fr)]`, navigation horizontale scrollable sur mobile, colonne de contenu `min-w-0`. Sur téléphone, une seule action principale accessible avant le pli.
 
-Les sections utilisent un rythme de 8 px : `gap-3`, `gap-4`, `p-5`, `py-8` puis `sm:py-10`, et des séparations plus fortes de `32px` à `40px` entre blocs. Les cartes seules portent l'aplats blanc ; le fond reste papier. Aucun écran ne doit dépasser la largeur viewport, y compris avec des tableaux, des emails longs et des accumulations de badges.
+Rythme de 8 px : `gap-3`, `gap-4`, `p-5`, `py-8` puis `sm:py-10`. Les sections sont séparées par `section-rule`, pas par des ombres. Aucun débordement horizontal, y compris tableaux, emails longs et badges.
 
 ## Elevation & Depth
 
-Le système est peu profond : profondeur par aplats et bordures d'abord, ombre seulement pour séparer une carte du fond papier.
-
-### Shadow Vocabulary
-- **Soft** (`0 1px 2px rgba(20, 23, 28, 0.05), 0 10px 26px -14px rgba(20, 23, 28, 0.16)`) : cartes, barres de navigation, petits panneaux.
-- **Lift** (`0 2px 4px rgba(20, 23, 28, 0.06), 0 22px 46px -20px rgba(20, 23, 28, 0.26)`) : menus mobiles et surfaces temporaires au-dessus du contenu.
-
-### Named Rules
-**The Flat-By-Default Rule.** Une carte est plate au repos ; l'ombre ne devient plus forte que pour un menu ou un état temporaire.
+- **Repos :** pas d'ombre sur les cartes, seulement `1px` de bordure `line`.
+- **Survol :** la bordure passe à `line-strong` ou `teal`, le fond reste stable.
+- **Temporaire :** menus et panneaux flottants utilisent `shadow-lift`.
 
 ## Shapes
 
-Les formes sont arrondies mais jamais jouets : `rounded-full` pour les actions et pastilles, `rounded-2xl` (16 px) pour les cartes, `rounded-xl` (12 px) pour les champs et navigation, `rounded-xs` (4 px) pour le focus. Les bordures sont fines, en `line`, et deviennent `line-strong` sur les champs et boutons secondaires. Le dotted grid reste un fond de rupture de section, pas une texture permanente.
+Actions et pastilles : `rounded-full`. Cartes et panneaux : `16px`. Champs : `12px`. Focus : `2px` citron, offset `2px`. Avatars : superellipse (`rounded-[30%]`), pas des cercles parfaits.
 
 ## Components
 
 ### Buttons
-- **Shape:** pillée (`999px`), bord visible, une ligne de texte, `px-4 py-2`, `text-sm font-bold`.
-- **Primary:** fond `amber-strong`, texte `paper`, ombre douce au header ; survol `amber-strong-hover`.
-- **Secondary:** fond `surface`, bord `line-strong`, texte `ink`, survol par bord plus sombre.
-- **Ghost:** bord transparent, texte `ink`, survol `ink/5`.
-- **Danger:** fond rouge pâle, texte rouge foncé, uniquement pour les actions destructives.
-- **Focus:** `outline: 2px solid amber-strong`, `outline-offset: 2px`.
+- **Primary** : fond citron, texte matière, `min-h-11`, `px-4.5`.
+- **Secondary** : fond transparent, bord `line-strong`, texte encre.
+- **Quiet** : texte encre douce, survol citron.
+- **Danger** : fond `danger-soft`, texte `danger`, uniquement pour les actions destructives.
+- **Focus** : `outline: 2px solid #cfdc00`, `outline-offset: 2px`.
 
 ### Cards / Containers
-- **Corner Style:** `16px`, bord `line`, fond `surface`, padding `20px`.
-- **Density:** titre, métadonnée, puis contenu. Espacement interne de 4 à 16 px.
-- **States:** une carte peut être dashed et papier pour un empty state ; sinon elle ne change pas de fond.
+- Fond `panel`, bord `line`, radius `16px`, padding `20px`, aucune ombre au repos.
+- Un titre, une métadonnée, puis le contenu. État vide : bordure dashed et fond matière.
 
 ### Inputs
-- **Shape:** `12px`, bord `line`, fond `paper`, padding `10px 14px`.
-- **Focus:** bord `amber-strong`, fond `surface`, caret `amber-strong`.
-- **Labels:** au-dessus du champ, `text-sm font-bold`, aide en `text-xs muted`, erreur en rouge.
+- Fond `matter`, bord `line`, radius `12px`, focus bord citron et caret citron.
+- Label au-dessus, aide en `muted`, erreur en `danger`.
 
 ### Status Pills
-- **Shape:** pillée, `px-2.5 py-1`, `text-xs font-bold`.
-- **Tone:** neutre `ink/5`, succès vert pâle, avertissement `amber-soft`, danger rouge pâle, info bleu pâle.
-- **Rule:** toujours accompagnées d'un mot : `funded`, `released`, `Vérifié`, `À vérifier`.
+- Fond `raised`, texte `ink-soft`, libellé explicite. Teal pour succès, argile pour attention, rouille pour danger, bleu pour info.
 
 ### Navigation
-- **Public:** container `max-w-6xl`, liens textuels arrondis, action principale ambre à droite, menu mobile en panneau blanc ombré.
-- **Dashboard:** nav horizontale sur mobile, colonne verticale sur desktop ; élément actif en `bg-ink text-paper`, sinon `text-muted`.
-- **Rule:** pas de logo d'action répété : une seule CTA primaire par en-tête.
+- **Public** : liens textuels, un seul bouton citron à droite, menu mobile en panneau `panel`.
+- **Dashboard** : nav horizontale sur mobile, colonne verticale sur desktop ; élément actif en fond encre / texte matière, sinon `muted`.
 
 ## Do's and Don'ts
 
 - Faire apparaître les chiffres avec `tnum` et un libellé explicite.
-- Garder au moins 16 px de respiration autour des blocs denses sur mobile.
-- Utiliser l'ambre pour guider l'action et la validation, jamais comme fond de page.
-- Tester chaque nouvelle page à 390 px et 1440 px avant de la considérer terminée.
+- Garder 16 px de respiration autour des blocs denses sur mobile.
+- Utiliser le citron pour guider l'action, jamais comme fond de page.
+- Tester chaque écran à 390 px et 1440 px.
 - Ne pas remplacer les libellés d'état par des couleurs seules.
-- Ne pas ajouter d'ombres fortes, de gradients décoratifs ou de faux effets 3D.
+- Ne pas ajouter de halos, gradients décoratifs ou faux effets 3D.
+- Ne pas annoncer de chiffres ou garanties absents de `PRODUCT.md`.
 - Ne pas utiliser `href="#"` comme lien de navigation.
-- Ne pas annoncer des chiffres ou des garanties absents de `PRODUCT.md`.

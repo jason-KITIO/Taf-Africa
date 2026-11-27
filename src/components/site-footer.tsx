@@ -12,8 +12,8 @@ const legalLinks = [
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-line">
-      <div className="mx-auto w-full max-w-6xl px-5 py-14 sm:px-8">
+    <footer className="border-t border-line bg-matter">
+      <div className="mx-auto w-full max-w-6xl px-5 pb-28 pt-14 sm:px-8 sm:pb-14">
         <div className="grid gap-10 lg:grid-cols-[1.4fr_repeat(4,1fr)]">
           <div className="max-w-xs">
             <Logo className="text-2xl" />
@@ -21,20 +21,18 @@ export function SiteFooter() {
               La marketplace qui réunit les clients et les freelances
               d&apos;Afrique francophone.
             </p>
-            <p className="mt-4 text-sm font-semibold text-ink">
-              taf-africa.com
-            </p>
+            <p className="mt-4 text-sm font-semibold text-ink">taf-africa.com</p>
           </div>
 
           {footerNav.map((column) => (
             <div key={column.title}>
-              <h3 className="text-sm font-bold text-ink">{column.title}</h3>
-              <ul className="mt-4 space-y-3">
+              <h3 className="eyebrow">{column.title}</h3>
+              <ul className="mt-4 flex flex-col">
                 {column.links.map((link) => (
                   <li key={link.label}>
                     <Link
                       href={link.href}
-                      className="text-sm text-muted transition hover:text-amber-deep"
+                      className="flex min-h-11 items-center text-base text-muted transition-colors hover:text-lime"
                     >
                       {link.label}
                     </Link>
@@ -51,7 +49,11 @@ export function SiteFooter() {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-muted">
             {legalLinks.map((link) => (
-              <Link key={link.href} href={link.href} className="transition hover:text-amber-deep">
+              <Link
+                key={link.href}
+                href={link.href}
+                className="inline-flex min-h-11 items-center transition-colors hover:text-lime"
+              >
                 {link.label}
               </Link>
             ))}

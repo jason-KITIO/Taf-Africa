@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { DashboardShell } from "@/components/dashboard-shell";
 import { markAllNotificationsReadAction, markNotificationReadAction } from "@/app/actions/notifications";
-import { Card, EmptyState, StatusPill } from "@/components/ui";
+import { EmptyState } from "@/components/ui";
 import { requireUser } from "@/lib/auth";
 import { getNotificationsForUser } from "@/lib/demo-store";
 import { formatDateTime } from "@/lib/format";
+import { cn } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -20,13 +21,16 @@ export default async function NotificationsPage() {
       title="Notifications"
       description="Tout ce qui demande votre attention, au même endroit."
     >
-      <div className="mb-4 flex items-center justify-between gap-4">
-        <p className="text-sm text-muted">
-          <strong className="tnum text-ink">{unread}</strong> non lue{unread > 1 ? "s" : ""}
-        </p>
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-line pb-4">
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="eyebrow">File d&apos;attention</span>
+          <span className="chip tnum">
+            <span className="text-ink-soft">{unread}</span> non lue{unread > 1 ? "s" : ""}
+          </span>
+        </div>
         {unread > 0 ? (
           <form action={markAllNotificationsReadAction}>
-            <button type="submit" className="rounded-full border border-line-strong px-4 py-2 text-sm font-bold text-ink transition hover:border-ink/40">
+            <button type="submit" className="action action-secondary">
               Tout marquer comme lu
             </button>
           </form>
@@ -36,35 +40,54 @@ export default async function NotificationsPage() {
       {notifications.length === 0 ? (
         <EmptyState title="Aucune notification" description="Vos alertes de projets, offres et messages apparaîtront ici." />
       ) : (
-        <div className="space-y-3">
+        <ul className="panel divide-y divide-line overflow-hidden">
           {notifications.map((notification) => (
-            <Card key={notification.id} className={notification.readAt ? "opacity-75" : ""}>
-              <div className="flex flex-wrap items-start justify-between gap-4">
-                <div>
+            <li
+              key={notification.id}
+              className={cn(
+                "min-w-0 px-4 py-4 sm:px-5",
+                !notification.readAt && "border-l-2 border-clay",
+              )}
+            >
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                <div className="min-w-0">
                   <div className="flex flex-wrap items-center gap-2">
-                    {!notification.readAt ? <StatusPill tone="warning">Nouveau</StatusPill> : null}
-                    <p className="font-bold text-ink">{notification.title}</p>
+                    <span
+                      className={cn(
+                        "chip",
+                        notification.readAt ? "text-muted" : "border-clay/40 text-clay",
+                      )}
+                    >
+                      {notification.readAt ? "Lu" : "Non lu"}
+                    </span>
+                    <p className="text-[15px] font-bold text-ink">{notification.title}</p>
                   </div>
-                  <p className="mt-1 text-sm text-muted">{notification.body}</p>
-                  <p className="mt-2 text-xs text-muted">{formatDateTime(notification.createdAt)}</p>
+                  <p className="mt-1 break-words text-sm leading-relaxed text-ink-soft">
+                    {notification.body}
+                  </p>
+                  <p className="tnum mt-2 text-xs text-muted">
+                    <time dateTime={notification.createdAt}>
+                      {formatDateTime(notification.createdAt)}
+                    </time>
+                  </p>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Link href={notification.url} className="rounded-full border border-line-strong px-3.5 py-2 text-sm font-bold text-ink transition hover:border-ink/40">
+                <div className="flex shrink-0 flex-wrap items-center gap-2">
+                  <Link href={notification.url} className="action action-secondary">
                     Ouvrir
                   </Link>
                   {!notification.readAt ? (
                     <form action={markNotificationReadAction}>
                       <input type="hidden" name="notificationId" value={notification.id} />
-                      <button type="submit" className="rounded-full px-3.5 py-2 text-sm font-semibold text-amber-deep transition hover:bg-ink/5">
+                      <button type="submit" className="action action-quiet">
                         Marquer comme lu
                       </button>
                     </form>
                   ) : null}
                 </div>
               </div>
-            </Card>
+            </li>
           ))}
-        </div>
+        </ul>
       )}
     </DashboardShell>
   );

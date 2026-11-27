@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { SiteFrame } from "@/components/site-frame";
-import { Avatar, Card, PageHeader, StatusPill } from "@/components/ui";
+import { Avatar, StatusPill } from "@/components/ui";
 import { formatMoney } from "@/lib/format";
 import { getPublicFreelances, getStore } from "@/lib/demo-store";
 
@@ -13,43 +13,52 @@ export default function FreelancesPage() {
   return (
     <SiteFrame>
       <div className="mx-auto w-full max-w-6xl px-5 py-10 sm:px-8 sm:py-14">
-        <PageHeader
-          eyebrow="Annuaire"
-          title="Des freelances prêts à livrer"
-          description="Une sélection de profils francophones, avec compétences, tarifs et réalisations."
-        />
-        <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <header className="min-w-0">
+          <p className="eyebrow">Annuaire</p>
+          <h1 className="display mt-4 text-[2rem] text-ink sm:text-[2.5rem]">
+            Des freelances prêts à livrer
+          </h1>
+          <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-muted">
+            Une sélection de profils francophones, avec compétences, tarifs et réalisations.
+          </p>
+        </header>
+
+        <ul className="mt-9 divide-y divide-line border-t border-line">
           {freelances.map((profile) => {
             const user = users.find((item) => item.id === profile.userId);
             return (
-              <Link key={profile.userId} href={`/freelances/${profile.slug}`} className="block">
-                <Card className="h-full transition hover:border-line-strong hover:shadow-lift">
-                  <div className="flex items-start gap-3">
-                    <Avatar name={user?.name ?? "Freelance"} className="size-12" />
-                    <div className="min-w-0">
-                      <p className="font-bold text-ink">{user?.name ?? "Freelance"}</p>
-                      <p className="text-sm text-muted">{profile.title}</p>
+              <li key={profile.userId}>
+                <Link href={`/freelances/${profile.slug}`} className="group block py-6">
+                  <div className="flex min-w-0 flex-wrap items-start justify-between gap-4">
+                    <div className="flex min-w-0 items-start gap-4">
+                      <Avatar name={user?.name ?? "Freelance"} className="size-12" />
+                      <div className="min-w-0">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <p className="break-words text-lg font-bold tracking-[-0.02em] text-ink transition group-hover:text-teal">
+                            {user?.name ?? "Freelance"}
+                          </p>
+                          {profile.verified ? <StatusPill tone="success">Profil vérifié</StatusPill> : null}
+                        </div>
+                        <p className="mt-1 text-sm text-muted">{profile.title}</p>
+                      </div>
                     </div>
-                  </div>
-                  <p className="mt-4 line-clamp-2 text-sm text-muted">{profile.bio}</p>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {profile.skills.slice(0, 3).map((skill) => (
-                      <span key={skill} className="rounded-full bg-sand px-2.5 py-1 text-xs font-semibold text-ink-soft">
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="mt-5 flex items-center justify-between border-t border-line pt-4">
-                    <span className="tnum text-sm font-bold text-ink">
+                    <p className="tnum shrink-0 text-sm font-bold text-ink">
                       {formatMoney(profile.dailyRate, profile.rateCurrency)} / jour
-                    </span>
-                    {profile.verified ? <StatusPill tone="success">Profil vérifié</StatusPill> : null}
+                    </p>
                   </div>
-                </Card>
-              </Link>
+                  <p className="mt-4 line-clamp-2 text-sm leading-relaxed text-muted">{profile.bio}</p>
+                  <ul className="mt-4 flex flex-wrap gap-2">
+                    {profile.skills.slice(0, 3).map((skill) => (
+                      <li key={skill} className="chip">
+                        {skill}
+                      </li>
+                    ))}
+                  </ul>
+                </Link>
+              </li>
             );
           })}
-        </div>
+        </ul>
       </div>
     </SiteFrame>
   );

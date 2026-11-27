@@ -46,6 +46,12 @@ const byRole: Record<Role, NavItem[]> = {
   ],
 };
 
+const roleLabel: Record<Role, string> = {
+  client: "Espace client",
+  freelance: "Espace freelance",
+  admin: "Administration",
+};
+
 export function DashboardShell({
   user,
   active,
@@ -64,40 +70,64 @@ export function DashboardShell({
   return (
     <div className="flex min-h-full flex-col">
       <SiteHeaderAuth />
-      <main className="flex-1 bg-paper/70">
-        <div className="mx-auto w-full max-w-6xl px-5 py-8 sm:px-8 sm:py-10">
-          <div className="mb-7">
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber-deep">
-              Espace {user.role === "freelance" ? "freelance" : user.role === "client" ? "client" : "administrateur"}
-            </p>
-            <h1 className="mt-2 text-2xl font-extrabold tracking-[-0.02em] text-ink sm:text-3xl">
+      <main className="flex-1 bg-matter">
+        <div className="border-b border-line bg-panel/40">
+          <div className="mx-auto w-full max-w-6xl px-5 py-8 sm:px-8 sm:py-10">
+            <div className="flex items-center gap-3">
+              <span className="eyebrow">{roleLabel[user.role]}</span>
+              <span className="h-px w-8 bg-teal" aria-hidden="true" />
+              <span className="text-xs font-medium text-muted">{user.name}</span>
+            </div>
+            <h1 className="display mt-3 text-[2rem] text-ink sm:text-[2.5rem]">
               {title}
             </h1>
-            {description ? <p className="mt-2 max-w-2xl text-sm text-muted">{description}</p> : null}
+            {description ? (
+              <p className="mt-2 max-w-2xl text-[15px] leading-relaxed text-muted">
+                {description}
+              </p>
+            ) : null}
           </div>
+        </div>
 
-          <div className="grid gap-6 lg:grid-cols-[220px_minmax(0,1fr)]">
+        <div className="mx-auto w-full max-w-6xl px-5 py-8 sm:px-8 sm:py-10">
+          <div className="grid gap-8 lg:grid-cols-[220px_minmax(0,1fr)]">
             <aside className="min-w-0 lg:sticky lg:top-24 lg:self-start">
-              <nav className="flex w-full min-w-0 gap-1.5 overflow-x-auto rounded-2xl border border-line bg-surface p-2 shadow-soft lg:flex-col lg:overflow-visible">
+              <div className="hidden border-b border-line pb-4 lg:block">
+                <p className="eyebrow">Navigation</p>
+                <p className="mt-2 text-xs leading-relaxed text-muted">
+                  {items.length} sections disponibles
+                </p>
+              </div>
+              <nav
+                aria-label="Navigation de l'espace"
+                className="flex w-full min-w-0 gap-1 overflow-x-auto pb-1 lg:flex-col lg:overflow-visible lg:pb-0 lg:pt-4"
+              >
                 {items.map((item) => (
                   <Link
                     key={item.href}
                     href={item.href}
+                    aria-current={active === item.href ? "page" : undefined}
                     className={cn(
-                      "whitespace-nowrap rounded-xl px-3.5 py-2.5 text-sm font-semibold transition",
+                      "relative flex min-h-11 shrink-0 items-center whitespace-nowrap rounded-lg px-3.5 text-sm font-semibold transition-colors",
                       active === item.href
-                        ? "bg-ink text-paper"
-                        : "text-muted hover:bg-ink/5 hover:text-ink",
+                        ? "bg-ink text-matter"
+                        : "text-muted hover:bg-raised hover:text-ink",
                     )}
                   >
                     {item.label}
+                    {active === item.href ? (
+                      <span
+                        aria-hidden="true"
+                        className="absolute left-0 top-1/2 hidden h-4 w-0.5 -translate-y-1/2 bg-lime lg:block"
+                      />
+                    ) : null}
                   </Link>
                 ))}
               </nav>
-              <form action={logoutAction} className="mt-3 hidden lg:block">
+              <form action={logoutAction} className="mt-4 hidden lg:block">
                 <button
                   type="submit"
-                  className="w-full rounded-xl border border-line bg-surface px-3.5 py-2.5 text-left text-sm font-semibold text-muted transition hover:border-ink/30 hover:text-ink"
+                  className="action action-secondary w-full justify-start"
                 >
                   Se déconnecter
                 </button>

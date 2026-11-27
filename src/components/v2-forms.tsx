@@ -10,16 +10,28 @@ import {
 } from "@/app/actions/v2";
 import { Field, inputClass, textareaClass } from "@/components/ui";
 import type { ActionResult, Quote } from "@/lib/types";
+import { cn } from "@/lib/utils";
 
 const initialState: ActionResult = { ok: true, message: "" };
 
-function SubmitButton({ children }: { children: React.ReactNode }) {
+const fieldClass = cn(inputClass, "min-h-11");
+
+function SubmitButton({
+  children,
+  variant = "primary",
+}: {
+  children: React.ReactNode;
+  variant?: "primary" | "secondary";
+}) {
   const { pending } = useFormStatus();
   return (
     <button
       type="submit"
       disabled={pending}
-      className="inline-flex items-center justify-center rounded-full bg-amber-strong px-5 py-2.5 text-sm font-bold text-paper transition hover:bg-amber-strong-hover disabled:cursor-wait disabled:opacity-60"
+      className={cn(
+        "action w-full disabled:cursor-wait disabled:opacity-60 sm:w-auto",
+        variant === "primary" ? "action-primary" : "action-secondary",
+      )}
     >
       {pending ? "Traitement…" : children}
     </button>
@@ -30,11 +42,13 @@ function Notice({ state }: { state: ActionResult }) {
   if (!state.message) return null;
   return (
     <p
-      className={
+      aria-live="polite"
+      className={cn(
+        "rounded-xl border px-3.5 py-2.5 text-sm font-semibold",
         state.ok
-          ? "rounded-xl border border-emerald-200 bg-emerald-50 px-3.5 py-2.5 text-sm font-semibold text-emerald-700"
-          : "rounded-xl border border-red-200 bg-red-50 px-3.5 py-2.5 text-sm font-semibold text-red-700"
-      }
+          ? "border-success/40 bg-success/10 text-success"
+          : "border-danger/40 bg-danger/10 text-danger",
+      )}
     >
       {state.message}
     </p>
@@ -48,7 +62,7 @@ export function FundEscrowForm({ quote }: { quote: Quote }) {
       <Notice state={state} />
       <input type="hidden" name="quoteId" value={quote.id} />
       <Field label="Moyen de paiement" error={state.fieldErrors?.provider}>
-        <select name="provider" className={inputClass} defaultValue="orange_money">
+        <select name="provider" className={fieldClass} defaultValue="orange_money">
           <option value="orange_money">Orange Money</option>
           <option value="mtn_momo">MTN MoMo</option>
           <option value="wave">Wave</option>
@@ -57,7 +71,7 @@ export function FundEscrowForm({ quote }: { quote: Quote }) {
         </select>
       </Field>
       <Field label="Numéro Mobile Money (facultatif)" error={state.fieldErrors?.phone}>
-        <input name="phone" className={inputClass} placeholder="+221 77 000 00 00" />
+        <input name="phone" className={fieldClass} placeholder="+221 77 000 00 00" />
       </Field>
       <SubmitButton>Sécuriser {quote.price.toLocaleString("fr-FR")} {quote.currency}</SubmitButton>
     </form>
@@ -70,7 +84,7 @@ export function ReleaseEscrowForm({ escrowId }: { escrowId: string }) {
     <form action={action}>
       <Notice state={state} />
       <input type="hidden" name="escrowId" value={escrowId} />
-      <SubmitButton>Libérer les fonds</SubmitButton>
+      <SubmitButton variant="secondary">Libérer les fonds</SubmitButton>
     </form>
   );
 }
@@ -82,7 +96,7 @@ export function ReviewForm({ quote }: { quote: Quote }) {
       <Notice state={state} />
       <input type="hidden" name="quoteId" value={quote.id} />
       <Field label="Note" error={state.fieldErrors?.rating}>
-        <select name="rating" className={inputClass} defaultValue="5">
+        <select name="rating" className={fieldClass} defaultValue="5">
           {[5, 4, 3, 2, 1].map((rating) => (
             <option key={rating} value={rating}>{rating} / 5</option>
           ))}
@@ -109,7 +123,7 @@ export function DisputeForm({ quoteId }: { quoteId: string }) {
       <Notice state={state} />
       <input type="hidden" name="quoteId" value={quoteId} />
       <Field label="Motif" error={state.fieldErrors?.reason}>
-        <input name="reason" className={inputClass} placeholder="Livraison non conforme" required />
+        <input name="reason" className={fieldClass} placeholder="Livraison non conforme" required />
       </Field>
       <Field label="Détails" error={state.fieldErrors?.details}>
         <textarea name="details" className={textareaClass} rows={3} placeholder="Expliquez le problème" />

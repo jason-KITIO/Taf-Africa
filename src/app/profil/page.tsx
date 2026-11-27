@@ -1,6 +1,6 @@
 import { DashboardShell } from "@/components/dashboard-shell";
 import { PortfolioForm, ProfileForm } from "@/components/forms";
-import { Card, SectionHeading } from "@/components/ui";
+import { Avatar, Card, SectionHeading } from "@/components/ui";
 import { requireUser } from "@/lib/auth";
 import { getClientProfile, getFreelanceProfile, getPortfolioFor } from "@/lib/demo-store";
 import { formatMoney } from "@/lib/format";
@@ -34,22 +34,44 @@ export default async function ProfilPage() {
       title="Mon profil"
       description="Un profil complet inspire confiance et reçoit plus de réponses."
     >
-      <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_300px]">
+      <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
         <Card className="p-5 sm:p-6">
-          <SectionHeading title="Informations du profil" description="Ces informations alimentent votre espace et votre profil public." />
-          <div className="mt-6">
+          <SectionHeading
+            title="Informations du profil"
+            description="Ces informations alimentent votre espace et votre profil public."
+          />
+          <div className="section-rule mt-5 pt-5">
             <ProfileForm user={{ name: user.name, role: user.role }} values={values} />
           </div>
         </Card>
 
-        <div className="space-y-6">
+        <div className="space-y-4">
           <Card>
-            <p className="text-xs font-bold uppercase tracking-wider text-muted">Aperçu</p>
-            <p className="mt-2 text-lg font-extrabold text-ink">{user.name}</p>
-            <p className="mt-1 text-sm text-muted">{freelance?.title || client?.companyName || "Profil Taf Africa"}</p>
-            <div className="mt-4 border-t border-line pt-4 text-sm text-muted">
-              <p>{values.city || "Ville à renseigner"}{values.country ? `, ${values.country}` : ""}</p>
-              {freelance ? <p className="tnum mt-1 font-semibold text-ink">{formatMoney(freelance.dailyRate, freelance.rateCurrency)} / jour</p> : null}
+            <p className="eyebrow">Aperçu</p>
+            <div className="mt-4 flex items-center gap-3">
+              <Avatar name={user.name} className="size-12" />
+              <div className="min-w-0">
+                <p className="display truncate text-2xl text-ink">{user.name}</p>
+                <p className="mt-1 break-words text-sm text-muted">
+                  {freelance?.title || client?.companyName || "Profil Taf Africa"}
+                </p>
+              </div>
+            </div>
+            <div className="mt-4 divide-y divide-line text-sm">
+              <div className="flex flex-col gap-1 py-2.5 first:pt-0 last:pb-0 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
+                <span className="text-muted">Localisation</span>
+                <span className="min-w-0 break-words text-right text-ink-soft">
+                  {values.city || "Ville à renseigner"}{values.country ? `, ${values.country}` : ""}
+                </span>
+              </div>
+              {freelance ? (
+                <div className="flex flex-col gap-1 py-2.5 first:pt-0 last:pb-0 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
+                  <span className="text-muted">Tarif journalier</span>
+                  <span className="tnum font-bold text-ink">
+                    {formatMoney(freelance.dailyRate, freelance.rateCurrency)} / jour
+                  </span>
+                </div>
+              ) : null}
             </div>
           </Card>
 
@@ -57,22 +79,24 @@ export default async function ProfilPage() {
             <>
               <Card>
                 <SectionHeading title="Portfolio" description="Ajoutez des réalisations concrètes." />
-                <div className="mt-4 space-y-3">
+                <div className="section-rule mt-4 pt-4">
                   {portfolio.length === 0 ? (
                     <p className="text-sm text-muted">Aucune réalisation pour le moment.</p>
                   ) : (
-                    portfolio.map((item) => (
-                      <div key={item.id} className="rounded-xl border border-line bg-paper p-3">
-                        <p className="text-sm font-bold text-ink">{item.title}</p>
-                        <p className="mt-1 text-xs text-muted">{item.description}</p>
-                      </div>
-                    ))
+                    <div className="divide-y divide-line">
+                      {portfolio.map((item) => (
+                        <div key={item.id} className="py-3 first:pt-0 last:pb-0">
+                          <p className="text-sm font-bold text-ink">{item.title}</p>
+                          <p className="mt-1 break-words text-xs leading-relaxed text-muted">{item.description}</p>
+                        </div>
+                      ))}
+                    </div>
                   )}
                 </div>
               </Card>
               <Card>
                 <SectionHeading title="Ajouter une réalisation" />
-                <div className="mt-4">
+                <div className="section-rule mt-4 pt-4">
                   <PortfolioForm />
                 </div>
               </Card>

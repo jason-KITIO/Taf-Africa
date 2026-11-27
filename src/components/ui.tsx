@@ -9,9 +9,7 @@ export function Card({
   className?: string;
 }) {
   return (
-    <div className={cn("rounded-2xl border border-line bg-surface p-5 shadow-soft", className)}>
-      {children}
-    </div>
+    <div className={cn("panel p-5", className)}>{children}</div>
   );
 }
 
@@ -28,18 +26,20 @@ export function PageHeader({
 }) {
   return (
     <div className="flex flex-col gap-5 border-b border-line pb-7 sm:flex-row sm:items-end sm:justify-between">
-      <div className="max-w-2xl">
-        {eyebrow ? (
-          <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber-deep">
-            {eyebrow}
-          </p>
-        ) : null}
-        <h1 className="mt-2 text-3xl font-extrabold tracking-[-0.03em] text-ink sm:text-4xl">
+      <div className="min-w-0 max-w-2xl">
+        {eyebrow ? <p className="eyebrow">{eyebrow}</p> : null}
+        <h1 className="display mt-3 text-[2rem] text-ink sm:text-[2.5rem]">
           {title}
         </h1>
-        {description ? <p className="mt-3 text-base leading-relaxed text-muted">{description}</p> : null}
+        {description ? (
+          <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-muted">
+            {description}
+          </p>
+        ) : null}
       </div>
-      {actions ? <div className="flex flex-wrap items-center gap-2">{actions}</div> : null}
+      {actions ? (
+        <div className="flex flex-wrap items-center gap-2">{actions}</div>
+      ) : null}
     </div>
   );
 }
@@ -55,8 +55,8 @@ export function SectionHeading({
 }) {
   return (
     <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-      <div>
-        <h2 className="text-lg font-bold tracking-tight text-ink">{title}</h2>
+      <div className="min-w-0">
+        <h2 className="text-lg font-bold tracking-[-0.02em] text-ink">{title}</h2>
         {description ? <p className="mt-1 text-sm text-muted">{description}</p> : null}
       </div>
       {action}
@@ -76,19 +76,15 @@ export function ButtonLink({
   className?: string;
 }) {
   const variants = {
-    primary: "bg-amber-strong text-paper hover:bg-amber-strong-hover border-amber-strong",
-    secondary: "border-line-strong bg-surface text-ink hover:border-ink/40",
-    ghost: "border-transparent text-ink hover:bg-ink/5",
-    danger: "border-red-200 bg-red-50 text-red-700 hover:bg-red-100",
+    primary: "action-primary",
+    secondary: "action-secondary",
+    ghost: "action-quiet",
+    danger: "border border-danger/40 bg-danger-soft text-danger hover:border-danger",
   };
   return (
     <Link
       href={href}
-      className={cn(
-        "inline-flex items-center justify-center gap-2 rounded-full border px-4 py-2 text-sm font-bold transition",
-        variants[variant],
-        className,
-      )}
+      className={cn("action", variants[variant], className)}
     >
       {children}
     </Link>
@@ -103,14 +99,19 @@ export function StatusPill({
   tone?: "neutral" | "success" | "warning" | "danger" | "info";
 }) {
   const tones = {
-    neutral: "bg-ink/5 text-ink-soft",
-    success: "bg-emerald-50 text-emerald-700",
-    warning: "bg-amber-soft text-amber-strong",
-    danger: "bg-red-50 text-red-700",
-    info: "bg-sky-50 text-sky-700",
+    neutral: "bg-raised text-ink-soft",
+    success: "bg-success-soft text-success",
+    warning: "bg-clay-soft text-clay",
+    danger: "bg-danger-soft text-danger",
+    info: "bg-info-soft text-info",
   };
   return (
-    <span className={cn("inline-flex rounded-full px-2.5 py-1 text-xs font-bold", tones[tone])}>
+    <span
+      className={cn(
+        "inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-bold",
+        tones[tone],
+      )}
+    >
       {children}
     </span>
   );
@@ -126,11 +127,13 @@ export function Stat({
   hint?: string;
 }) {
   return (
-    <Card className="p-4">
-      <p className="text-xs font-semibold uppercase tracking-wider text-muted">{label}</p>
-      <p className="tnum mt-2 text-2xl font-extrabold tracking-tight text-ink">{value}</p>
-      {hint ? <p className="mt-1 text-xs text-muted">{hint}</p> : null}
-    </Card>
+    <div className="min-w-0 border-l border-line pl-4 first:border-l-0 first:pl-0 sm:pl-5">
+      <p className="eyebrow">{label}</p>
+      <p className="tnum mt-2 text-3xl font-extrabold tracking-[-0.04em] text-ink sm:text-4xl">
+        {value}
+      </p>
+      {hint ? <p className="mt-1 text-xs leading-relaxed text-muted">{hint}</p> : null}
+    </div>
   );
 }
 
@@ -144,11 +147,11 @@ export function EmptyState({
   action?: React.ReactNode;
 }) {
   return (
-    <Card className="flex flex-col items-start gap-3 border-dashed bg-paper/60 p-8">
+    <div className="flex flex-col items-start gap-3 rounded-2xl border border-dashed border-line-strong bg-matter/60 p-8">
       <p className="text-base font-bold text-ink">{title}</p>
       <p className="max-w-lg text-sm leading-relaxed text-muted">{description}</p>
       {action}
-    </Card>
+    </div>
   );
 }
 
@@ -162,7 +165,7 @@ export function Avatar({ name, className }: { name: string; className?: string }
   return (
     <span
       className={cn(
-        "inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-sand text-sm font-bold text-amber-strong",
+        "inline-flex size-10 shrink-0 place-items-center rounded-[30%] bg-raised text-sm font-bold text-teal",
         className,
       )}
       aria-hidden="true"
@@ -188,12 +191,14 @@ export function Field({
       <span className="text-sm font-bold text-ink">{label}</span>
       <span className="mt-1.5 block">{children}</span>
       {hint ? <span className="mt-1 block text-xs text-muted">{hint}</span> : null}
-      {error ? <span className="mt-1 block text-xs font-semibold text-red-600">{error}</span> : null}
+      {error ? (
+        <span className="mt-1 block text-xs font-semibold text-danger">{error}</span>
+      ) : null}
     </label>
   );
 }
 
 export const inputClass =
-  "w-full rounded-xl border border-line bg-paper px-3.5 py-2.5 text-sm text-ink outline-none transition placeholder:text-muted/60 focus:border-amber-strong focus:bg-surface";
+  "w-full rounded-xl border border-line bg-matter px-3.5 py-2.5 text-sm text-ink outline-none transition placeholder:text-muted/60 focus:border-lime focus:bg-panel";
 
 export const textareaClass = `${inputClass} min-h-28 resize-y`;

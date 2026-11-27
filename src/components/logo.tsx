@@ -9,12 +9,12 @@ export function Logo({ className, compact = false }: LogoProps) {
   return (
     <span
       className={cn(
-        "inline-flex items-baseline font-extrabold uppercase leading-none tracking-[-0.04em]",
+        "inline-flex items-baseline whitespace-nowrap font-extrabold uppercase leading-none tracking-[-0.055em]",
         className,
       )}
     >
       <span>{compact ? "TAF" : "TAF AFRICA"}</span>
-      <span className="text-amber-deep">.</span>
+      <span className="text-lime">.</span>
     </span>
   );
 }

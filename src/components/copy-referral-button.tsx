@@ -23,12 +23,9 @@ export function CopyReferralButton({ path }: { path: string }) {
       type="button"
       onClick={copyLink}
       className={cn(
-        "inline-flex items-center justify-center gap-2 rounded-full border px-4 py-2 text-sm font-bold transition",
-        tone === "success"
-          ? "border-emerald-200 bg-emerald-50 text-emerald-700"
-          : tone === "error"
-            ? "border-red-200 bg-red-50 text-red-700"
-            : "border-line-strong bg-surface text-ink hover:border-ink/40",
+        "action action-secondary",
+        tone === "success" && "border-success/40 text-success",
+        tone === "error" && "border-danger/40 text-danger",
       )}
     >
       <span aria-live="polite">{label}</span>

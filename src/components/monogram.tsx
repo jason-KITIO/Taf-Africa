@@ -1,14 +1,14 @@
 import { cn } from "@/lib/utils";
 
 const palette = [
-  "#b4700a",
-  "#14171c",
-  "#3b414b",
-  "#0f766e",
-  "#9a3412",
-  "#5b21b6",
-  "#1d4ed8",
-  "#065f46",
+  { bg: "#026466", fg: "#f4f2ed" },
+  { bg: "#3d7d7c", fg: "#f4f2ed" },
+  { bg: "#74b9b6", fg: "#121113" },
+  { bg: "#e78a53", fg: "#121113" },
+  { bg: "#414046", fg: "#f4f2ed" },
+  { bg: "#5f8787", fg: "#121113" },
+  { bg: "#2f5f60", fg: "#f4f2ed" },
+  { bg: "#cfdc00", fg: "#121113" },
 ];
 
 function hash(input: string) {
@@ -26,14 +26,14 @@ export function Monogram({
   initials: string;
   className?: string;
 }) {
-  const bg = palette[hash(initials) % palette.length];
+  const { bg, fg } = palette[hash(initials) % palette.length];
   return (
     <span
       className={cn(
-        "grid shrink-0 place-items-center rounded-full text-[10px] font-bold uppercase tracking-tight text-paper ring-2 ring-surface",
+        "grid shrink-0 place-items-center rounded-[30%] text-[10px] font-bold uppercase tracking-tight ring-2 ring-panel",
         className,
       )}
-      style={{ backgroundColor: bg }}
+      style={{ backgroundColor: bg, color: fg }}
       aria-hidden="true"
     >
       {initials}

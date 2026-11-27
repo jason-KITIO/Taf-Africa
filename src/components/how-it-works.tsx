@@ -17,44 +17,44 @@ const columns = [
 
 export function HowItWorks() {
   return (
-    <section
-      id="comment-ca-marche"
-      className="border-y border-line bg-sand"
-    >
-      <div className="mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
-        <div className="grid items-center gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:gap-14">
+    <section id="comment-ca-marche" className="section-rule">
+      <div className="mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
+        <div className="grid gap-8 border-b border-line pb-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.42fr)] lg:items-end lg:gap-14">
           <div className="max-w-2xl">
-            <h2 className="text-balance text-3xl font-extrabold leading-[1.08] tracking-[-0.03em] text-ink sm:text-4xl">
+            <p className="eyebrow">Parcours</p>
+            <h2 className="mt-4 text-balance text-3xl font-extrabold leading-[1.08] tracking-[-0.03em] text-ink sm:text-4xl">
               Deux côtés, un seul marché
             </h2>
-            <p className="mt-4 text-lg leading-relaxed text-muted">
+            <p className="mt-4 max-w-xl text-base leading-relaxed text-ink-soft sm:text-lg">
               Que vous recrutiez ou que vous cherchiez du travail, le parcours
               est court et se déroule entièrement en français.
             </p>
           </div>
-          <WorkflowIllustration className="hidden max-w-sm rounded-2xl ring-1 ring-line lg:block" />
+          <div data-visual className="panel-quiet hidden overflow-hidden lg:block">
+            <WorkflowIllustration className="h-auto w-full" />
+          </div>
         </div>
 
-        <div className="mt-12 grid gap-10 lg:grid-cols-2 lg:gap-14">
+        <div className="grid gap-px border-x border-b border-line bg-line lg:grid-cols-2">
           {columns.map(({ icon: Icon, audience, steps }) => (
-            <div key={audience}>
-              <h3 className="flex items-center gap-3 text-xl font-bold text-ink">
-                <span className="grid size-10 place-items-center rounded-xl bg-ink text-paper">
+            <div key={audience} className="bg-panel p-6 sm:p-8">
+              <h3 className="flex items-center gap-3 text-lg font-bold text-ink sm:text-xl">
+                <span className="grid size-10 shrink-0 place-items-center border border-line bg-matter text-lime">
                   <Icon className="size-5" />
                 </span>
                 {audience}
               </h3>
-              <ol className="mt-6 space-y-6">
+              <ol className="mt-8 space-y-0 divide-y divide-line border-y border-line">
                 {steps.map((step, i) => (
-                  <li key={step.title} className="flex gap-4">
-                    <span className="tnum mt-0.5 grid size-8 shrink-0 place-items-center rounded-full border border-line-strong bg-surface text-sm font-bold text-ink">
-                      {i + 1}
+                  <li key={step.title} className="grid gap-3 py-5 sm:grid-cols-[auto_1fr] sm:gap-5">
+                    <span className="tnum text-sm font-bold text-teal">
+                      {String(i + 1).padStart(2, "0")}
                     </span>
                     <div>
                       <h4 className="text-base font-bold text-ink">
                         {step.title}
                       </h4>
-                      <p className="mt-1 text-[15px] leading-relaxed text-muted">
+                      <p className="mt-2 text-base leading-relaxed text-ink-soft">
                         {step.description}
                       </p>
                     </div>

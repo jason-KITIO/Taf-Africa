@@ -11,20 +11,18 @@ const filters = ["Tous", ...categories.map((c) => c.label)];
 
 function PromoBlock() {
   return (
-    <div className="flex flex-col items-start justify-between gap-4 rounded-2xl border border-amber-deep/30 bg-amber-soft/60 p-6 sm:flex-row sm:items-center">
-      <div>
-        <h3 className="text-lg font-bold text-ink">
+    <div className="flex flex-col gap-4 border border-line bg-matter p-6 sm:flex-row sm:items-center sm:justify-between">
+      <div className="max-w-2xl">
+        <p className="eyebrow">Déposer un besoin</p>
+        <h3 className="mt-3 text-lg font-bold text-ink">
           Vous avez un projet similaire ?
         </h3>
-        <p className="mt-1 text-sm leading-relaxed text-ink-soft">
+        <p className="mt-2 text-sm leading-relaxed text-ink-soft">
           Déposez votre besoin gratuitement et recevez des offres simples à 1
           crédit ou premium à 15 crédits, 4 au maximum par mission.
         </p>
       </div>
-      <Link
-        href="/projets/nouveau"
-        className="inline-flex shrink-0 items-center gap-2 rounded-full bg-amber-strong px-5 py-3 text-sm font-bold text-paper transition hover:bg-amber-strong-hover"
-      >
+      <Link href="/projets/nouveau" className="action action-primary shrink-0">
         Publier un besoin
         <ArrowRight className="size-4" />
       </Link>
@@ -53,10 +51,10 @@ export function ProjectList() {
             onClick={() => setActive(filter)}
             aria-pressed={active === filter}
             className={cn(
-              "rounded-full px-3.5 py-2 text-sm font-semibold transition",
+              "min-h-11 rounded-full border px-4 text-sm font-semibold transition-colors",
               active === filter
-                ? "bg-ink text-paper"
-                : "border border-line bg-surface text-ink-soft hover:border-line-strong hover:text-ink",
+                ? "border-lime bg-lime-soft text-lime"
+                : "border-line bg-panel text-ink-soft hover:border-line-strong hover:text-ink",
             )}
           >
             {filter}
@@ -71,11 +69,11 @@ export function ProjectList() {
       </p>
 
       {list.length === 0 ? (
-        <div className="mt-6 rounded-2xl border border-dashed border-line-strong bg-surface p-10 text-center">
+        <div className="mt-6 border border-dashed border-line-strong bg-matter p-10 text-center">
           <p className="text-base font-bold text-ink">
             Aucun projet dans cette catégorie pour l&apos;instant.
           </p>
-          <p className="mt-1 text-sm text-muted">
+          <p className="mt-2 text-sm text-muted">
             Revenez bientôt ou explorez toutes les catégories.
           </p>
         </div>

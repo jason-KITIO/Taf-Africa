@@ -7,6 +7,15 @@ import { formatDate } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
 
+type StatusTone = "neutral" | "success" | "warning" | "danger" | "info";
+
+const disputeStatus: Record<string, { label: string; tone: StatusTone }> = {
+  open: { label: "Ouvert", tone: "warning" },
+  reviewing: { label: "En examen", tone: "info" },
+  resolved: { label: "Résolu", tone: "success" },
+  rejected: { label: "Rejeté", tone: "danger" },
+};
+
 export default async function LitigesPage() {
   const user = await requireUser();
   const data = getStore();
@@ -28,57 +37,59 @@ export default async function LitigesPage() {
       title="Litiges"
       description="Un désaccord sur une livraison ou un paiement est examiné par la modération."
     >
-      <section>
+      <section className="space-y-4">
         <SectionHeading title="Signaler un problème" description="Ouvrez un litige sur une mission acceptée." />
         {openQuotes.length === 0 ? (
-          <div className="mt-4">
-            <EmptyState title="Aucun litige à ouvrir" description="Vous n'avez aucune mission acceptée nécessitant un litige." />
-          </div>
+          <EmptyState title="Aucun litige à ouvrir" description="Vous n'avez aucune mission acceptée nécessitant un litige." />
         ) : (
-          <div className="mt-4 space-y-3">
-            {openQuotes.map((quote) => {
-              const project = data.projects.find((item) => item.id === quote.projectId);
-              return (
-                <Card key={quote.id}>
-                  <p className="font-bold text-ink">{project?.title ?? "Mission"}</p>
-                  <p className="mt-1 text-sm text-muted">Ouvert le {formatDate(quote.createdAt)}</p>
-                  <div className="mt-4 max-w-xl">
-                    <DisputeForm quoteId={quote.id} />
+          <Card>
+            <div className="divide-y divide-line">
+              {openQuotes.map((quote) => {
+                const project = data.projects.find((item) => item.id === quote.projectId);
+                return (
+                  <div key={quote.id} className="min-w-0 py-4 first:pt-0 last:pb-0">
+                    <h2 className="break-words text-base font-bold text-ink">{project?.title ?? "Mission"}</h2>
+                    <p className="tnum mt-1 text-sm text-muted">Ouvert le {formatDate(quote.createdAt)}</p>
+                    <div className="mt-4">
+                      <DisputeForm quoteId={quote.id} />
+                    </div>
                   </div>
-                </Card>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+          </Card>
         )}
       </section>
 
-      <section className="mt-10">
+      <section className="mt-8 space-y-4">
         <SectionHeading title="Mes litiges" />
         {disputes.length === 0 ? (
-          <div className="mt-4">
-            <EmptyState title="Aucun litige" description="Aucun litige n'est associé à votre compte." />
-          </div>
+          <EmptyState title="Aucun litige" description="Aucun litige n'est associé à votre compte." />
         ) : (
-          <div className="mt-4 space-y-3">
-            {disputes.map((dispute) => {
-              const project = data.projects.find((item) => item.id === dispute.projectId);
-              const tone = dispute.status === "open" ? "warning" : dispute.status === "resolved" ? "success" : "neutral";
-              return (
-                <Card key={dispute.id}>
-                  <div className="flex flex-wrap items-start justify-between gap-3">
-                    <div>
-                      <p className="font-bold text-ink">{dispute.reason}</p>
-                      <p className="mt-1 text-sm text-muted">
-                        {project?.title ?? "Mission"} · {formatDate(dispute.createdAt)}
-                      </p>
+          <Card>
+            <div className="divide-y divide-line">
+              {disputes.map((dispute) => {
+                const project = data.projects.find((item) => item.id === dispute.projectId);
+                const status = disputeStatus[dispute.status] ?? { label: "Litige", tone: "neutral" as StatusTone };
+                return (
+                  <article key={dispute.id} className="min-w-0 py-4 first:pt-0 last:pb-0">
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                      <div className="min-w-0">
+                        <h2 className="break-words text-base font-bold text-ink">{dispute.reason}</h2>
+                        <p className="mt-1 break-words text-sm text-muted">
+                          {project?.title ?? "Mission"} · <span className="tnum">{formatDate(dispute.createdAt)}</span>
+                        </p>
+                      </div>
+                      <StatusPill tone={status.tone}>{status.label}</StatusPill>
                     </div>
-                    <StatusPill tone={tone}>{dispute.status}</StatusPill>
-                  </div>
-                  {dispute.details ? <p className="mt-3 text-sm text-ink-soft">{dispute.details}</p> : null}
-                </Card>
-              );
-            })}
-          </div>
+                    {dispute.details ? (
+                      <p className="mt-3 break-words text-sm leading-relaxed text-ink-soft">{dispute.details}</p>
+                    ) : null}
+                  </article>
+                );
+              })}
+            </div>
+          </Card>
         )}
       </section>
     </DashboardShell>
